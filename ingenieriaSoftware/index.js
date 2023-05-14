@@ -7,6 +7,7 @@ const app = express();
 dotenv.config();
 
 const feedbackRoutes = require('./routes/feedbackRoutes');
+const brigadistaRoutes = require('./routes/brigadistaRoutes');
 
 //Conexión a base de datos
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.options('*', cors());
 app.use('/api',feedbackRoutes);
+app.use('/api', brigadistaRoutes);
 
 
 
