@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-
-const Brigadista = mongoose.model('Brigadista', {
+const Planificacion = mongoose.model('Planificacion', {
     nombre:{
         type: String,
         minlength: 3,
@@ -43,11 +42,17 @@ const Brigadista = mongoose.model('Brigadista', {
         maxlength: 9
     },
 
-    comentarios:{
-        type: [mongoose.Schema.ObjectId],
-        ref: 'feedback'
-    }
+    username:{
+        type: String,
+        require: true,
+    },
 
+    password:{
+        type: String,
+        require: true,
+        minlength: 8,
+           
+    }
 });
 
-module.exports = Brigadista;
+module.exports = Planificacion;

@@ -19,7 +19,6 @@ mongoose.connect(process.env.DB,(error) =>{
     }
 });
 
-
 //Llamado de rutas
 app.use(cors());
 app.use(express.json());
@@ -28,7 +27,6 @@ app.use('/api',feedbackRoutes);
 app.use('/api', brigadistaRoutes);
 
 
-
 app.listen(process.env.PORT, () => {
     console.log(`Server iniciado en el puerto: ${process.env.PORT}`);
-})
+}) 

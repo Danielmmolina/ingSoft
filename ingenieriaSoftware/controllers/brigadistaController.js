@@ -3,14 +3,15 @@ const Brigadista = require('../models/brigadista');
 
 //Se crea controlador para crear un brigadista
 const createBrigadista = (req, res) => {
-    const {nombre, apellido, rut, email, edad, telefono } = req.body;
+    const {nombre, apellido, rut, email, edad, telefono, comentarios} = req.body;
     const newFeedback = new Brigadista({
         nombre,
         apellido,
         rut,
         email,
         edad,
-        telefono
+        telefono,
+        comentarios
     });
     newFeedback.save((err, Brigadista) => {
         if(err){
