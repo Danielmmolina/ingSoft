@@ -6,8 +6,7 @@ const app = express();
 
 dotenv.config();
 
-const feedbackRoutes = require('./routes/feedbackRoutes');
-const brigadistaRoutes = require('./routes/brigadistaRoutes');
+const practicaRoutes = require('./routes/practicaRoutes');
 
 //Conexión a base de datos
 
@@ -24,8 +23,7 @@ mongoose.connect(process.env.DB,(error) =>{
 app.use(cors());
 app.use(express.json());
 app.options('*', cors());
-app.use('/api',feedbackRoutes);
-app.use('/api', brigadistaRoutes);
+app.use('/api', practicaRoutes);
 
 
 
