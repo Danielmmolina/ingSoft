@@ -1,0 +1,1 @@
+const Brigadista = require('../models/cuadrilla');
