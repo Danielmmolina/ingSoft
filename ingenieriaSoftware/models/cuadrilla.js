@@ -7,4 +7,4 @@ const Feedbacks = mongoose.model('Cuadrilla', {
     }
 });
 
-module.exports= Feedbacks;
+module.exports= Cuadrilla;
