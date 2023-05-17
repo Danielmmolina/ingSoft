@@ -1,8 +1,6 @@
 //Se importa modelo practica
 const practica = require('../models/practicaModel');
 
-const CsvParser = require('json2csv').Parser;
-
 //Se crea controlador para crear un practica
 const createPractica = (req, res) => {
     const {nombre_practica, descripcion, fecha, lugar, herramientasEquipo, escuadrilla} = req.body;
@@ -105,33 +103,9 @@ const updatePractica= (req, res) => {
     })
 }
 
-const exportPractica = async(req,res)=>{
-    try {
-        let practicas = [];
-        var practicaData = await practica.find({});
-    
-        practicaData.forEach((practica) => {
-          const { nombre_practica, descripcion, fecha, lugar, herramientasEquipo, escuadrilla } = practica;
-          practicas.push({ nombre_practica, descripcion, fecha, lugar, herramientasEquipo, escuadrilla });
-        });
-    
-        const csvFields = ['Nombre', 'Descripcion', 'Fecha', 'Lugar', 'Herramientas', 'Escuadrilla'];
-        const csvParser = new CsvParser({ csvFields });
-        const csvData = csvParser.parse(practicas);
-    
-        res.setHeader("Content-Type", "text/csv");
-        res.setHeader("Content-Disposition", "attachment; filename=practicasData.csv");
-    
-        res.status(200).end(csvData);
-    }catch(err){
-        return res.status(400).send('Hubo un error');
-    }
-}
-
 module.exports ={
     createPractica,
     getPractica,
     deletePractica,
-    updatePractica,
-    exportPractica
+    updatePractica
 }
