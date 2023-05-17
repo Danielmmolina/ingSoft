@@ -1,11 +1,13 @@
 //Se importa modelo feedback
+const Brigadista = require('../models/brigadista');
 const Feedback = require('../models/feedback');  
 
 //Se crea controlador para crear un comentario
 const createFeedback = (req, res) => {
-    const {contenido} = req.body;
+    const {contenido, creador} = req.body;
     const newFeedback = new Feedback ({
-        contenido
+        contenido,
+        creador
     });
     newFeedback.save((err, Feedback) => {
         if(err){
@@ -42,6 +44,8 @@ const updateFeedback = (req, res) =>{
     }
 
 //Se crea el controlador para eliminar un comentario
+
+
 
 const deleteFeedback = (req, res) =>{
     const {id} = req.params;

@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
 
 
-const Feedbacks = mongoose.model('Feedback', {
+const FeedbacksSchema = new mongoose.Schema({
     contenido:{
         type: String,
         require: true
-    }
-   /* con el comentario y q el brigadista pertenezca a una cuadrilla
-    y esa cuadrilla pertenezca a una practica
-*/
+    },
+},
+{
+    timestamps:true
+}
+);
 
-});
+const Feedbacks = mongoose.model('Feedback', FeedbacksSchema);
 
 module.exports= Feedbacks;

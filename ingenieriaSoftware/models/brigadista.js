@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const Brigadista = mongoose.model('Brigadista', {
+const BrigadistaSchema = new mongoose.Schema({
     nombre:{
         type: String,
         minlength: 3,
@@ -42,12 +42,12 @@ const Brigadista = mongoose.model('Brigadista', {
         minlength: 9,
         maxlength: 9
     },
+},
 
-    comentarios:{
-        type: [mongoose.Schema.ObjectId],
-        ref: 'feedback'
-    }
-
+{
+    timestamps:true
 });
+
+const Brigadista = mongoose.model('Brigadista', BrigadistaSchema);
 
 module.exports = Brigadista;

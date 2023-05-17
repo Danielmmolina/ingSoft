@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
+const aux = require('./controllers/brigadistaController');
 
 dotenv.config();
 
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const brigadistaRoutes = require('./routes/brigadistaRoutes');
+const practicaRoutes = require('./routes/practicaRoutes');
 
 //Conexión a base de datos
 
@@ -25,6 +27,11 @@ app.use(express.json());
 app.options('*', cors());
 app.use('/api',feedbackRoutes);
 app.use('/api', brigadistaRoutes);
+app.use('/api', practicaRoutes);
+
+
+
+
 
 
 app.listen(process.env.PORT, () => {
