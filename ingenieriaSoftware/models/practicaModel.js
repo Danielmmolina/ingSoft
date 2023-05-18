@@ -33,10 +33,9 @@ const Practica = mongoose.model('Practica', {
         require: true
     },
 
-    escuadrilla:{
-        type: String,
-        minlength: 13,
-        maxlength: 25,
+    cuadrilla:{
+        type: mongoose.Schema.ObjectId,
+        ref: "brigadistas",
         require: true
     },
 
