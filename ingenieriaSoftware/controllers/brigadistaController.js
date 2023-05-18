@@ -56,7 +56,6 @@ const updateBrigadista = (req, res) => {
         if(!brigadistas){
             return res.status(404).send('ERROR: brigadista  no encontrado');
         }
-
         return res.status(201).send(brigadistas)
     })
 }

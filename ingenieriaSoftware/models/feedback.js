@@ -6,6 +6,10 @@ const FeedbacksSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    practica:{
+        type: String,
+        require: true
+    }
 },
 {
     timestamps:true

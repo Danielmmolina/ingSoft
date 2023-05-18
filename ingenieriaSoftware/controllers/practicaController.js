@@ -3,24 +3,16 @@ const practica = require('../models/practicaModel');
 
 //Se crea controlador para crear un practica
 const createPractica = (req, res) => {
-    const {nombre_practica, descripcion, fecha, lugar, herramientasEquipo, escuadrilla} = req.body;
+    const {nombre_practica, descripcion, fecha, lugar, herramientasEquipo, escuadrilla, codigoPractica} = req.body;
     const newPractica = new practica({
         nombre_practica,
         descripcion,
         fecha,
         lugar,
         herramientasEquipo,
-        escuadrilla
-
+        escuadrilla,
+        codigoPractica
     });
-    newPractica.save((err, practica) => {
-        if(err){
-            return res.status(400).send('ERROR: no se pudo crear el practica');
-        }
-        return res.status(201).send(practica)
-    });
-
-
 practica.exists({"fecha": fecha}, (err, existe) => {
     const fechaActual = new Date();
     if(existe){
