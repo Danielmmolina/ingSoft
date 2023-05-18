@@ -9,18 +9,24 @@ const createFeedback = (req, res) => {
         contenido,
         practica
     });
+
+    //Se realizan las respectivas validaciones a los campos ingresados
     if(req.body.practica == null){
         return res.status(404).send('ERROR: el campo de practica es obligatorio')
     }else{
         if(req.body.contenido == null){
             return res.status(404).send('ERROR: el campo de contenido es obligatorio')
         }else{
-            newFeedback.save((err, Feedback) => {
-                if(err){
-                    return res.status(400).send('ERROR: no se pudo crear el comentario');
-                }
-                return res.status(201).send(Feedback)
-            });
+            if(req.body.contenido.length < 50){
+                return res.status(404).send('ERROR: el comentario es demasiado corto.')
+            }else{
+                newFeedback.save((err, Feedback) => {
+                    if(err){
+                        return res.status(400).send('ERROR: no se pudo crear el comentario');
+                    }
+                    return res.status(201).send(Feedback)
+                });
+            }
         }
     }
 

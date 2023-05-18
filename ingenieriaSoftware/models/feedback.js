@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const FeedbacksSchema = new mongoose.Schema({
     contenido:{
         type: String,
-        require: true
+        require: true,
+        minlength: 50
     },
     practica:{
         type: String,
