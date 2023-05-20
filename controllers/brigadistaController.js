@@ -15,6 +15,7 @@ const createBrigadista = (req, res) => {
     console.log(newBrigadista.nombre,newBrigadista.apellido, newBrigadista.rut, newBrigadista.email, newBrigadista.edad, newBrigadista.telefono)
     
     newBrigadista.save((err, brigadista) => {
+        
         if(err){
             console.log(brigadista.nombre)
             return res.status(400).send(err,'ERROR: no se pudo crear el brigadista');
@@ -68,13 +69,13 @@ const getBrigadistaByInput = (req,res) =>{
                 return res.status(201).send(foundByEmail);
             }
 
-            if (cantidadMatchBrigadista===0) {
-                return res.status(400).send('No existe el brigadista');
-            }
             if (emailFormateado.length<1) {
                 return res.status(400).send('No existe ningun brigadista');
             }
 
+        }
+        if (cantidadMatchBrigadista===0) {
+            return res.status(400).send('No existe el brigadista');
         }
     })
 
