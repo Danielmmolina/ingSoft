@@ -3,7 +3,7 @@ const brigadista = require('../models/brigadista');
 // const collect = require('collect.js'); 
 //Se crea controlador para crear un brigadista
 const createBrigadista = (req, res) => {
-    const {nombre, rut, email, edad, telefono, comentarios} = req.body;
+    const {nombre,apellido, rut, email, edad, telefono} = req.body;
     const newBrigadista = new brigadista({
         nombre,
         apellido,
@@ -12,12 +12,12 @@ const createBrigadista = (req, res) => {
         edad,
         telefono
     });
+
     console.log(newBrigadista.nombre,newBrigadista.apellido, newBrigadista.rut, newBrigadista.email, newBrigadista.edad, newBrigadista.telefono)
     
     newBrigadista.save((err, brigadista) => {
         
         if(err){
-            console.log(brigadista.nombre)
             return res.status(400).send(err,'ERROR: no se pudo crear el brigadista');
         }
         return res.status(201).send(brigadista)
@@ -26,7 +26,7 @@ const createBrigadista = (req, res) => {
 
 //se crea controlador para obtener brigadistas
 
-const getBrigadista = (req, res) => {
+const getBrigadistas = (req, res) => {
 
     brigadista.find({}, (err, brigadistas) =>{
         if(err){
@@ -85,8 +85,8 @@ const getBrigadistaByInput = (req,res) =>{
 
 
 const deleteBrigadista = (req, res) => {
-    const {rut} = req.params;
-    brigadista.findOneAndDelete ({rut:{ $eq: rut}}, (err, brigadistas) => {
+    const {id} = req.params;
+    brigadista.findOneAndDelete ({id}, (err, brigadistas) => {
         if(err){
             return res.status(400).send('ERROR: no se pudo obtener al brigadista');
         }
@@ -100,8 +100,8 @@ const deleteBrigadista = (req, res) => {
 //Se crea controlador para actualizar datos del brigadista por rut
 
 const updateBrigadista = (req, res) => {
-    const {rut} = req.params; 
-    brigadista.findOneAndUpdate({rut :{ $eq: rut}}, req.body, (err, brigadistas) => {
+    const {id} = req.params; 
+    brigadista.findOneAndUpdate({id}, req.body, (err, brigadistas) => {
         if(err){
             return res.status(400).send('ERROR: no se pudo obtener al brigadista');
         }
@@ -115,7 +115,7 @@ const updateBrigadista = (req, res) => {
 
 module.exports ={
     createBrigadista,
-    getBrigadista,
+    getBrigadistas,
     getBrigadistaByInput,
     deleteBrigadista,
     updateBrigadista,

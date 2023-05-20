@@ -6,7 +6,7 @@ const brigadistaSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    apeliido:{
+    apellido:{
         type: String,
         required: true
     },
