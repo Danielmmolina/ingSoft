@@ -40,8 +40,12 @@ const Brigadista = mongoose.model('Brigadista', {
         unique: true,
         minlength: 9,
         maxlength: 9
-    }
+    },
 
+    cuadrilla:{
+        type: String,
+        require: true
+    }
 });
 
 module.exports = Brigadista;

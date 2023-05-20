@@ -10,6 +10,8 @@ dotenv.config();
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const brigadistaRoutes = require('./routes/brigadistaRoutes');
 const practicaRoutes = require('./routes/practicaRoutes');
+const cuadrillaRoutes = require('./routes/cuadrillaRoutes');
+const addBrigadistaRoutes = require('./routes/addBrigadistaRoutes');
 //Conexión a base de datos
 
 mongoose.connect(process.env.DB,(error) =>{
@@ -28,6 +30,8 @@ app.options('*', cors());
 app.use('/api',feedbackRoutes);
 app.use('/api', brigadistaRoutes);
 app.use('/api', practicaRoutes);
+app.use('/api', cuadrillaRoutes);
+app.use('/api', addBrigadistaRoutes);
 
 
 app.listen(process.env.PORT, () => {
