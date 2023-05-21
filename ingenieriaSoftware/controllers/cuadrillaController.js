@@ -15,44 +15,44 @@ const Brigadista = require('../models/brigadista');
 
 
 
-const createCuadrilla = (req, res) => {
-    const {nombre, brigadistas, sector } = req.body;
-    const newCuadrilla = new Cuadrilla({
+    const createCuadrilla = async (req, res) => {
+      const { nombre, brigadistas, sector } = req.body;
+    
+      if (!Array.isArray(brigadistas)) {
+        return res.status(400).send('ERROR: brigadistas debe ser un array');
+      }
+    
+      let brigadistasData = [];
+      const brigadistaData = await Brigadista.find({});
+    
+      brigadistaData.forEach((brigadista) => {
+        const { rut } = brigadista;
+        brigadistasData.push({ rut });
+      });
+    
+      const rutsBrigadistas = brigadistas.map((brigadista) => brigadista.rut);
+    
+      const invalidBrigadistas = rutsBrigadistas.filter((rut) => !brigadistasData.find((brigadista) => brigadista.rut === rut));
+    
+      if (invalidBrigadistas.length > 0) {
+        return res.status(400).send('ERROR: algunos brigadistas no existen en la base de datos');
+      }
+    
+      const brigadistasIds = brigadistaData.filter((brigadista) => rutsBrigadistas.includes(brigadista.rut)).map((brigadista) => brigadista._id);
+    
+      const newCuadrilla = new Cuadrilla({
         nombre,
-        brigadistas,
-        sector
-    });
-
-      
-    const rut = brigadistas.rut;
-
-    // Imprimir el valor de rut para verificar si se está obteniendo correctamente
-    console.log('Valor de rut:', rut);
-  
-    Brigadista.findOne({ rut }, (err, brigadista) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error interno del servidor');
-      }
-  
-      if (!brigadista) {
-        console.log('Brigadista no encontrado');
-        return res.status(404).send({ message: 'Usuario no registrado' });
-      }
-  
-      if (!Array.isArray(brigadistas) || brigadistas.length < 1 || brigadistas.length > 50) {
-        return res.status(400).send('ERROR: Ingrese una cantidad válida de brigadistas');
-      }
-  
+        brigadistas: brigadistasIds,
+        sector,
+      });
+    
       newCuadrilla.save((err, cuadrilla) => {
         if (err) {
-          console.error(err);
-          return res.status(400).send('ERROR: No es posible crear la cuadrilla');
+          return res.status(400).send('ERROR: no se pudo crear la cuadrilla');
         }
         return res.status(201).send(cuadrilla);
       });
-    });
-  };
+    };
 const getCuadrilla = (req, res) => {
     Cuadrilla.find({}, (err, cuadrillas) =>{
         if(err){

@@ -4,6 +4,7 @@ const Cuadrilla = mongoose.model('Cuadrilla', {
     nombre:{
         type: String,
         minlength:3,
+        maxlength:32,
         require:true
 
     },
