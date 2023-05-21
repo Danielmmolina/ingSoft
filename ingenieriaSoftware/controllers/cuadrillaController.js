@@ -9,6 +9,12 @@ const createCuadrilla = async (req, res) => {
     return res.status(400).send('ERROR: El nombre de la cuadrilla debe tener al menos 3 caracteres');
   }
 
+   // Validar que el nombre de la cuadrilla no contenga caracteres especiales
+   const specialCharsRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+   if (specialCharsRegex.test(nombre)) {
+     return res.status(400).send('ERROR: El nombre de la cuadrilla no puede contener caracteres especiales');
+   }
+
   // Verificar si ya existe una cuadrilla con el mismo nombre
   const existingCuadrilla = await Cuadrilla.findOne({ nombre: nombre });
   if (existingCuadrilla) {
@@ -17,7 +23,7 @@ const createCuadrilla = async (req, res) => {
 
   // Validar el número de brigadistas
   if (!brigadistas || brigadistas.length < 1 || brigadistas.length > 50) {
-    return res.status(400).send('ERROR: Debe añadirse al menos un brigadista y máximo 50');
+    return res.status(400).send('ERROR: Ingrese una cantidad válida de brigadistas.');
   }
 
   // Verificar si los brigadistas están en la base de datos
@@ -27,6 +33,14 @@ const createCuadrilla = async (req, res) => {
       // El brigadista no está en la base de datos
       return res.status(400).send(`ERROR: El brigadista con RUT ${rut} no existe en la base de datos`);
     }
+  }
+
+  // Validar el sector
+  if (!sector || sector.length < 3 || sector.length > 32) {
+    return res.status(400).send('ERROR: El sector debe tener entre 3 y 32 caracteres');
+  }
+  if (specialCharsRegex.test(sector)) {
+    return res.status(400).send('ERROR: El sector no puede contener caraceteres especiales');
   }
 
   // Los brigadistas están en la base de datos, continuar con la creación de la cuadrilla
