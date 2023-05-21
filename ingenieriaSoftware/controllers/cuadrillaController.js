@@ -1,58 +1,26 @@
 const Cuadrilla = require('../models/cuadrilla');
 const Brigadista = require('../models/brigadista');
 
-/**const rutBrigadistaa = async(req,res)=>{
-        let brigadistas = [];
-        var brigadistaData = await Brigadista.find({});
-    
-        brigadistaData.forEach((Brigadista) => {
-          const { rut} = Brigadista;
-          brigadistas.push({  rut });
-        
-            return Brigadista
-        });
-    }  */
 
-
-
-    const createCuadrilla = async (req, res) => {
-      const { nombre, brigadistas, sector } = req.body;
-    
-      if (!Array.isArray(brigadistas)) {
-        return res.status(400).send('ERROR: brigadistas debe ser un array');
+const createBrigadista = (req, res) => {
+  const {nombre, apellido, rut, email, edad, telefono, cuadrilla } = req.body;
+  const newFeedback = new Brigadista({
+      nombre,
+      apellido,
+      rut,
+      email,
+      edad,
+      telefono,
+      cuadrilla
+  });
+  newFeedback.save((err, Brigadista) => {
+      if(err){
+          return res.status(400).send('ERROR: no se pudo crear el brigadista');
       }
-    
-      let brigadistasData = [];
-      const brigadistaData = await Brigadista.find({});
-    
-      brigadistaData.forEach((brigadista) => {
-        const { rut } = brigadista;
-        brigadistasData.push({ rut });
-      });
-    
-      const rutsBrigadistas = brigadistas.map((brigadista) => brigadista.rut);
-    
-      const invalidBrigadistas = rutsBrigadistas.filter((rut) => !brigadistasData.find((brigadista) => brigadista.rut === rut));
-    
-      if (invalidBrigadistas.length > 0) {
-        return res.status(400).send('ERROR: algunos brigadistas no existen en la base de datos');
-      }
-    
-      const brigadistasIds = brigadistaData.filter((brigadista) => rutsBrigadistas.includes(brigadista.rut)).map((brigadista) => brigadista._id);
-    
-      const newCuadrilla = new Cuadrilla({
-        nombre,
-        brigadistas: brigadistasIds,
-        sector,
-      });
-    
-      newCuadrilla.save((err, cuadrilla) => {
-        if (err) {
-          return res.status(400).send('ERROR: no se pudo crear la cuadrilla');
-        }
-        return res.status(201).send(cuadrilla);
-      });
-    };
+      return res.status(201).send(Brigadista)
+  });
+}
+
 const getCuadrilla = (req, res) => {
     Cuadrilla.find({}, (err, cuadrillas) =>{
         if(err){
