@@ -2,22 +2,18 @@ const Cuadrilla = require('../models/cuadrilla');
 const Brigadista = require('../models/brigadista');
 
 
-const createBrigadista = (req, res) => {
-  const {nombre, apellido, rut, email, edad, telefono, cuadrilla } = req.body;
-  const newFeedback = new Brigadista({
+const createCuadrilla = (req, res) => {
+  const {nombre, brigadistas, sector } = req.body;
+  const newFeedback = new Cuadrilla({
       nombre,
-      apellido,
-      rut,
-      email,
-      edad,
-      telefono,
-      cuadrilla
+      brigadistas,
+      sector
   });
-  newFeedback.save((err, Brigadista) => {
+  newFeedback.save((err, Cuadrilla) => {
       if(err){
           return res.status(400).send('ERROR: no se pudo crear el brigadista');
       }
-      return res.status(201).send(Brigadista)
+      return res.status(201).send(Cuadrilla)
   });
 }
 
