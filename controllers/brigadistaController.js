@@ -20,21 +20,26 @@ const createBrigadista = (req, res) => {
         // console.log(newBrigadista)
         return res.status(400).send('ERROR: debe ingresar los datos de forma correcta');
     }
-    for (let i = 0; i < 8; i++) {
-        // console.log(newBrigadista.rut[i])
-        if (newBrigadista.rut[i]>=0 && newBrigadista.rut[i]<10) {
-            // console.log(newBrigadista.rut[i])
-            continue;
-        }else{
-            return res.status(400).send('ERROR: El rut no debe contener puntos ni letras (ej: 12345678-9)')
+    var indexRut = newBrigadista.rut.indexOf('-');
+    console.log(indexRut);
+
+        for (let i = 0; i < indexRut; i++) {
+            if (newBrigadista.rut[i]>=0 && newBrigadista.rut[i]<10) {
+                continue;
+            }else{
+                return res.status(400).send('ERROR: Ingrese un rut valido (ej: 1234567-8)')
+            }
         }
-    }
-    if (newBrigadista.rut[8]!=='-') {
-        return res.status(400).send('ERROR: El debe contener un guion (ej: 12345678-9)');
-    }
-    if (newBrigadista.rut[9]<=0 || newBrigadista.rut[9]>10) {
-        return res.status(400).send('ERROR: Verifique el digito verificador (ej: 12345678-9)');
-    }
+        if (newBrigadista.rut[indexRut]!=='-') {
+            return res.status(400).send('ERROR: No se encuentra el guion, ingrese un rut valido (ej: 1234567-8)')
+        }
+        if (newBrigadista.rut[indexRut++]>0 && newBrigadista.rut[indexRut++]<10 || newBrigadista.rut[indexRut++]=='k') {
+            
+        }else{
+            return res.status(400).send('ERROR: El digito verificar es invalido, ingrese un rut valido (ej: 1234567-8)')
+        }
+
+    
     if (!newBrigadista.email.endsWith("@gmail.com")) {
         return res.status(400).send('ERROR: Ingrese un dominio valido');
     }
