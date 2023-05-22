@@ -3,14 +3,15 @@ const practica = require('../models/practicaModel');
 
 //Se crea controlador para crear un practica
 const createPractica = (req, res) => {
-    const { nombre_practica, descripcion, fecha, lugar, herramientasEquipo, cuadrilla } = req.body;
+    const { nombre_practica, descripcion, fecha, lugar, herramientasEquipo, cuadrilla, comentarios } = req.body;
     const newPractica = new practica({
         nombre_practica,
         descripcion,
         fecha,
         lugar,
         herramientasEquipo,
-        cuadrilla
+        cuadrilla,
+        comentarios
 
     });
 
@@ -24,25 +25,47 @@ const createPractica = (req, res) => {
                 return res.status(400).send({ message: "Un escuadron no puede hacer mas de dos practicas por dia" })
             } else {
                 if (!nombre_practica) {
-                    res.status(403)
-                    res.send({ error: 'Nombre vacio' })
-                }
-                if (!descripcion) {
-                    res.status(403)
-                    res.send({ error: 'Descripcion vacia' })
-                }
-                if (!lugar) {
-                    res.status(403)
-                    res.send({ error: 'Lugar vacio' })
-                }
-                if (!herramientasEquipo) {
-                    res.status(403)
-                    res.send({ error: 'Equipo vacio' })
-                }
-                if (!cuadrilla) {
-                    res.status(403)
-                    res.send({ error: 'cuadrilla vacia' })
-                }
+                    return res.status(400).send({ error: 'El nombre de la práctica no puede estar vacío' });
+                   }
+                   const nombrePracticaRegex = /^[a-zA-Z0-9]+$/;
+                   if (!nombrePracticaRegex.test(nombre_practica)) {
+                    return res.status(400).send({ error: 'El nombre de la práctica solo puede contener letras y números' });
+                   }
+                   
+                   // Validar que la descripción no esté vacía y solo contenga letras, números y ciertos caracteres especiales permitidos
+                   if (!descripcion) {
+                    return res.status(400).send({ error: 'La descripción no puede estar vacía' });
+                   }
+                   const descripcionRegex = /^[a-zA-Z0-9,:.]+$/;
+                   if (!descripcionRegex.test(descripcion)) {
+                    return res.status(400).send({ error: 'La descripción solo puede contener letras, números y los caracteres : , .' });
+                   }
+                   
+                   // Validar que el lugar no esté vacío y solo contenga letras, números y ciertos caracteres especiales permitidos
+                   if (!lugar) {
+                    return res.status(400).send({ error: 'El lugar no puede estar vacío' });
+                   }
+                   const lugarRegex = /^[a-zA-Z0-9,.:]+$/;
+                   if (!lugarRegex.test(lugar)) {
+                    return res.status(400).send({ error: 'El lugar solo puede contener letras, números y el carácter ,' });
+                   }
+                   
+                   // Validar que las herramientas/equipo no estén vacías y solo contengan letras, números y ciertos caracteres especiales permitidos
+                   if (!herramientasEquipo) {
+                    return res.status(400).send({ error: 'Las herramientas/equipo no pueden estar vacías' });
+                   }
+                   const herramientasEquipoRegex = /^[a-zA-Z0-9,]+$/;
+                   if (!herramientasEquipoRegex.test(herramientasEquipo)) {
+                    return res.status(400).send({ error: 'Las herramientas/equipo solo pueden contener letras, números y el carácter ,' });
+                   }
+
+                   if (!comentarios) {
+                    return res.status(400).send({ error: 'Las comentarios no pueden estar vacías' });
+                   }
+                   const comentarios = /^[a-zA-Z0-9,.:]+$/;
+                   if (!comentariosRegex.test(comentarios)) {
+                    return res.status(400).send({ error: 'Las comentarios solo pueden contener letras, números y el carácter ,' });
+                   }
 
                 newPractica.save((err, practica) => {
                     if (err) {
@@ -89,8 +112,8 @@ const deletePractica = (req, res) => {
 //Se crea controlador para actualizar datos del practica por fecha
 
 const updatePractica = (req, res) => {
-    const { fecha } = req.params;
-    practica.findOneAndUpdate({ fecha: fecha }, req.body, (err, practica) => {
+    const { id } = req.params;
+    practica.findOneAndUpdate({ id: id }, req.body, (err, practica) => {
         if (err) {
             return res.status(400).send('ERROR: no se pudo obtener la practica');
         }

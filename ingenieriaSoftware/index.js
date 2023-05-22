@@ -7,6 +7,9 @@ const app = express();
 dotenv.config();
 
 const practicaRoutes = require('./routes/practicaRoutes');
+const brigadistaRoutes = require('./routes/BrigadistaRoutes');
+const cuadrillaRoutes = require('./routes/cuadrillaRoutes');
+const nodemailerRoutes = require('./routes/nodemailerRoutes');
 
 //Conexión a base de datos
 
@@ -24,6 +27,9 @@ app.use(cors());
 app.use(express.json());
 app.options('*', cors());
 app.use('/api', practicaRoutes);
+app.use('/api', brigadistaRoutes);
+app.use('/api', cuadrillaRoutes);
+app.use('/api', nodemailerRoutes);
 
 
 
