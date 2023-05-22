@@ -13,33 +13,32 @@ const createBrigadista = (req, res) => {
         telefono
     });
 
-    console.log(newBrigadista.nombre,newBrigadista.apellido, newBrigadista.rut, newBrigadista.email, newBrigadista.edad, newBrigadista.telefono)
+    // console.log(newBrigadista.nombre,newBrigadista.apellido, newBrigadista.rut, newBrigadista.email, newBrigadista.edad, newBrigadista.telefono)
 
     //validaciones
     if (newBrigadista.nombre.length<3 || newBrigadista.apellido.length<3 || newBrigadista.rut.length<3 || newBrigadista.email.length<3 || newBrigadista.edad.length<3 || newBrigadista.telefono.length<3) {
         // console.log(newBrigadista)
-        for (let i = 0; i < 8; i++) {
-            console.log(newBrigadista.rut[i])
-            if (newBrigadista.rut[i]>=0 && newBrigadista.rut[i]<10) {
-                console.log(newBrigadista.rut[i])
-                continue;
-            }else{
-                return res.status(400).send('ERROR: El rut no debe contener puntos ni letras (ej: 12345678-9)')
-            }
-        }
-        if (newBrigadista.rut[8]!=='-') {
-            return res.status(400).send('ERROR: El debe contener un guion (ej: 12345678-9)');
-        }
-        if (newBrigadista.rut[9]<=0 || newBrigadista.rut[9]>10) {
-            return res.status(400).send('ERROR: Verifique el digito verificador (ej: 12345678-9)');
-        }
-
-        return res.status(400).send('ERROR: debe ingresar todos los datos');
+        return res.status(400).send('ERROR: debe ingresar los datos de forma correcta');
     }
-
-    
-
-
+    for (let i = 0; i < 8; i++) {
+        // console.log(newBrigadista.rut[i])
+        if (newBrigadista.rut[i]>=0 && newBrigadista.rut[i]<10) {
+            // console.log(newBrigadista.rut[i])
+            continue;
+        }else{
+            return res.status(400).send('ERROR: El rut no debe contener puntos ni letras (ej: 12345678-9)')
+        }
+    }
+    if (newBrigadista.rut[8]!=='-') {
+        return res.status(400).send('ERROR: El debe contener un guion (ej: 12345678-9)');
+    }
+    if (newBrigadista.rut[9]<=0 || newBrigadista.rut[9]>10) {
+        return res.status(400).send('ERROR: Verifique el digito verificador (ej: 12345678-9)');
+    }
+    if (!newBrigadista.email.endsWith("@gmail.com")) {
+        return res.status(400).send('ERROR: Ingrese un dominio valido');
+    }
+    //hasta aqui las validaciones
     newBrigadista.save((err, brigadista) => {
 
         if(err){
@@ -111,7 +110,7 @@ const deleteBrigadista = (req, res) => {
     const {id} = req.params;
     brigadista.findByIdAndDelete(id, (err, brigadistas) => {
         if(err){
-            return res.status(400).send('ERROR: no se pudo obtener al brigadista');
+            return res.status(400).send('ERROR: no se pudo eliminar al brigadista');
         }
         if(!brigadistas){
             return res.status(404).send('ERROR: brigadista  no encontrado');
