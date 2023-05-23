@@ -4,7 +4,7 @@ const Cuadrilla = require('../models/cuadrilla');
 
 const CsvParser = require('json2csv').Parser;
 
-// Controlador para exportar practicas
+// Funcion para exportar practicas
 
 const exportPractica = async (req, res) => {
   try {
@@ -48,7 +48,7 @@ const exportPractica = async (req, res) => {
   }
 }
 
-// Controlador para exportar brigadistas
+// Funcion para exportar brigadistas
 
 const exportBrigadista = async (req, res) => {
   try {
@@ -93,6 +93,8 @@ const exportBrigadista = async (req, res) => {
   }
 }
 
+//Funcion para exportar cuadrillas
+
 const exportCuadrilla = async (req, res) => {
   try {
     let cuadrillas = [];
@@ -135,8 +137,51 @@ const exportCuadrilla = async (req, res) => {
   }
 }
 
+  //Funcion para exportar las cuadrillas mediante la ID
+
+const exportCuadrillabyID = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let brigadistasCuadrilla = [];
+    // Llenar el campo brigadistas con los datos de los brigadistas
+    var cuadrillaData = await Cuadrilla.findById(id).populate('brigadistas', 'rut nombre apellido email telefono');
+    const { nombre, brigadistas } = cuadrillaData;
+    // Mapear el campo brigadistas para incluir solo el RUT de cada brigadista
+    brigadistas.forEach(brigadista => {
+      brigadistasCuadrilla.push({ rutBrigadista: brigadista.rut, nombreBrigadista: brigadista.nombre, apellidoBrigadista: brigadista.apellido, telefonoBrigadista: brigadista.telefono, correoBrigadista: brigadista.email});
+    });
+
+    brigadistasCuadrilla.sort((a, b) => {
+      const apellidoBrigadistaA = a.apellidoBrigadista.toLowerCase();
+      const apellidoBrigadistaB = b.apellidoBrigadista.toLowerCase();
+
+      return apellidoBrigadistaA.localeCompare(apellidoBrigadistaB);
+    });
+
+    const fields = [
+      { label: 'Rut ', value: 'rutBrigadista' },
+      { label: 'Nombre ', value: 'nombreBrigadista' },
+      { label: 'Apellido ', value: 'apellidoBrigadista' },
+      { label: 'Telefono ', value: 'telefonoBrigadista' },
+      { label: 'Correo', value: 'correoBrigadista' },
+    ];
+    
+    const csvParser = new CsvParser({ fields, delimiter: ';' });
+    const csvData = csvParser.parse(brigadistasCuadrilla);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", `attachment; filename=${nombre}Data.csv`);
+
+    res.status(200).end(csvData);
+  } catch (err) {
+    console.error(err);
+    // Agregar un console.log para mostrar el error en la consola
+    return res.status(500).send('ERROR: No se logro exportar el archivo');
+  }
+}
 module.exports = {
   exportPractica,
   exportBrigadista,
-  exportCuadrilla
+  exportCuadrilla,
+  exportCuadrillabyID
 }

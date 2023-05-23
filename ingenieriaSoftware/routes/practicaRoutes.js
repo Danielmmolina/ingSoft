@@ -1,12 +1,14 @@
 const express = require('express');
 const api = express.Router();
 const practicaController = require('../controllers/practicaController');
-const requeriment = require('../requeriments/nodemailer');
+const exportController = require('../controllers/exportController');
+
 
 api.post('/practica', practicaController.createPractica);
-api.get('/getpractica',practicaController.getPractica);
-api.delete('/deletepractica/:fecha', practicaController.deletePractica);
-api.put('/updatepractica/:fecha', practicaController.updatePractica);
+api.get('/getPractica',practicaController.getPractica);
+api.delete('/deletePractica/:id', practicaController.deletePractica);
+api.put('/updatePractica/:id', practicaController.updatePractica);
+api.get('/exportPracticas', exportController.exportPractica);
 
 
 module.exports = api;

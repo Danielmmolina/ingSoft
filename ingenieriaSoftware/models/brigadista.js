@@ -1,53 +1,43 @@
 const mongoose = require('mongoose');
 
 
-const BrigadistaSchema = new mongoose.Schema({
+const brigadistaSchema = new mongoose.Schema({
     nombre:{
         type: String,
-        minlength: 3,
-        require: true
+        required: true
     },
-
     apellido:{
         type: String,
-        minlength: 3,
-        require: true
+        required: true
     },
-
     rut:{
         type: String,
-        minlength: 9,
-        maxlength: 10,
-        require: true,
-        unique: true
+        unique: true,
+        required: true
     },
 
     email:{
         type: String,
-        require: true,
-        unique: true
+        unique: true,
+        required: true
     },
 
     edad:{
         type: Number,
-        require: true,
-        minlength: 2,
-        maxlength: 2
+        required: true
     },
 
     telefono:{
         type: Number,
-        require: true,
         unique: true,
-        minlength: 9,
-        maxlength: 9
+        required: true
     },
-},
-
-{
-    timestamps:true
+    inputEmail:{
+        type: String,
+        unique: true
+    }
 });
 
-const Brigadista = mongoose.model('Brigadista', BrigadistaSchema);
+const brigadista = mongoose.model('Brigadista', brigadistaSchema);
 
-module.exports = Brigadista;
+module.exports = brigadista;

@@ -27,7 +27,7 @@ const createPractica = (req, res) => {
                 if (!nombre_practica) {
                     return res.status(400).send({ error: 'El nombre de la práctica no puede estar vacío' });
                    }
-                   const nombrePracticaRegex = /^[a-zA-Z0-9]+$/;
+                   const nombrePracticaRegex = /^[a-zA-Z0-9.,: ]+$/;
                    if (!nombrePracticaRegex.test(nombre_practica)) {
                     return res.status(400).send({ error: 'El nombre de la práctica solo puede contener letras y números' });
                    }
@@ -36,40 +36,32 @@ const createPractica = (req, res) => {
                    if (!descripcion) {
                     return res.status(400).send({ error: 'La descripción no puede estar vacía' });
                    }
-                   const descripcionRegex = /^[a-zA-Z0-9,:.]+$/;
+                   const descripcionRegex = /^[a-zA-Z0-9.,: ]+$/;
                    if (!descripcionRegex.test(descripcion)) {
-                    return res.status(400).send({ error: 'La descripción solo puede contener letras, números y los caracteres : , .' });
+                    return res.status(400).send({ error: 'La descripción solo puede contener letras y números' });
                    }
                    
                    // Validar que el lugar no esté vacío y solo contenga letras, números y ciertos caracteres especiales permitidos
                    if (!lugar) {
                     return res.status(400).send({ error: 'El lugar no puede estar vacío' });
                    }
-                   const lugarRegex = /^[a-zA-Z0-9,.:]+$/;
+                   const lugarRegex = /^[a-zA-Z0-9.,: ]+$/;
                    if (!lugarRegex.test(lugar)) {
-                    return res.status(400).send({ error: 'El lugar solo puede contener letras, números y el carácter ,' });
+                    return res.status(400).send({ error: 'El lugar solo puede contener letras y números' });
                    }
                    
                    // Validar que las herramientas/equipo no estén vacías y solo contengan letras, números y ciertos caracteres especiales permitidos
                    if (!herramientasEquipo) {
                     return res.status(400).send({ error: 'Las herramientas/equipo no pueden estar vacías' });
                    }
-                   const herramientasEquipoRegex = /^[a-zA-Z0-9,]+$/;
+                   const herramientasEquipoRegex = /^[a-zA-Z0-9.,: ]+$/;
                    if (!herramientasEquipoRegex.test(herramientasEquipo)) {
-                    return res.status(400).send({ error: 'Las herramientas/equipo solo pueden contener letras, números y el carácter ,' });
-                   }
-
-                   if (!comentarios) {
-                    return res.status(400).send({ error: 'Las comentarios no pueden estar vacías' });
-                   }
-                   const comentarios = /^[a-zA-Z0-9,.:]+$/;
-                   if (!comentariosRegex.test(comentarios)) {
-                    return res.status(400).send({ error: 'Las comentarios solo pueden contener letras, números y el carácter ,' });
+                    return res.status(400).send({ error: 'Las herramientas/equipo solo pueden contener letras y números' });
                    }
 
                 newPractica.save((err, practica) => {
                     if (err) {
-                        return res.status(400).send({ message: "Error al crear la practica" })
+                        return res.status(400).send({ message: "Error al crear la practica",err })
                     }
                     return res.status(201).send(practica)
                 });
@@ -97,8 +89,8 @@ const getPractica = (req, res) => {
 //Se crea controlador para eliminar practica por fecha
 
 const deletePractica = (req, res) => {
-    const { fecha } = req.params;
-    practica.findOneAndDelete({ fecha: fecha }, (err, practica) => {
+    const { id } = req.params;
+    practica.findByIdAndDelete( id , (err, practica) => {
         if (err) {
             return res.status(400).send('ERROR: no se pudo obtener la practica');
         }
@@ -113,7 +105,7 @@ const deletePractica = (req, res) => {
 
 const updatePractica = (req, res) => {
     const { id } = req.params;
-    practica.findOneAndUpdate({ id: id }, req.body, (err, practica) => {
+    practica.findByIdAndUpdate( id, req.body, (err, practica) => {
         if (err) {
             return res.status(400).send('ERROR: no se pudo obtener la practica');
         }

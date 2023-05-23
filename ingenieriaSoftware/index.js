@@ -10,6 +10,8 @@ const practicaRoutes = require('./routes/practicaRoutes');
 const brigadistaRoutes = require('./routes/BrigadistaRoutes');
 const cuadrillaRoutes = require('./routes/cuadrillaRoutes');
 const nodemailerRoutes = require('./routes/nodemailerRoutes');
+const addCommentsRoutes = require('./routes/addCommentsRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');
 
 //Conexión a base de datos
 
@@ -26,10 +28,12 @@ mongoose.connect(process.env.DB,(error) =>{
 app.use(cors());
 app.use(express.json());
 app.options('*', cors());
+app.use('/api', feedbackRoutes);
 app.use('/api', practicaRoutes);
 app.use('/api', brigadistaRoutes);
 app.use('/api', cuadrillaRoutes);
 app.use('/api', nodemailerRoutes);
+app.use('/api', addCommentsRoutes);
 
 
 
