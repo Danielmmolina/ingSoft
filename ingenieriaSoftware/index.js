@@ -7,7 +7,7 @@ const app = express();
 dotenv.config();
 
 const practicaRoutes = require('./routes/practicaRoutes');
-const brigadistaRoutes = require('./routes/BrigadistaRoutes');
+const brigadistaRoutes = require('./routes/brigadistaRoutes');
 const cuadrillaRoutes = require('./routes/cuadrillaRoutes');
 const nodemailerRoutes = require('./routes/nodemailerRoutes');
 const addCommentsRoutes = require('./routes/addCommentsRoutes');
