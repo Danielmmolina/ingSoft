@@ -4,14 +4,13 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
 
-
 dotenv.config();
 
-const feedbackRoutes = require('./routes/feedbackRoutes');
-const brigadistaRoutes = require('./routes/brigadistaRoutes');
 const practicaRoutes = require('./routes/practicaRoutes');
+const brigadistaRoutes = require('./routes/BrigadistaRoutes');
 const cuadrillaRoutes = require('./routes/cuadrillaRoutes');
-const addBrigadistaRoutes = require('./routes/addBrigadistaRoutes');
+const nodemailerRoutes = require('./routes/nodemailerRoutes');
+
 //Conexión a base de datos
 
 mongoose.connect(process.env.DB,(error) =>{
@@ -27,11 +26,11 @@ mongoose.connect(process.env.DB,(error) =>{
 app.use(cors());
 app.use(express.json());
 app.options('*', cors());
-app.use('/api',feedbackRoutes);
-app.use('/api', brigadistaRoutes);
 app.use('/api', practicaRoutes);
+app.use('/api', brigadistaRoutes);
 app.use('/api', cuadrillaRoutes);
-app.use('/api', addBrigadistaRoutes);
+app.use('/api', nodemailerRoutes);
+
 
 
 app.listen(process.env.PORT, () => {

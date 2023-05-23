@@ -1,10 +1,20 @@
 const mongoose = require('mongoose');
 
-const Feedbacks = mongoose.model('Feedback', {
+
+const FeedbacksSchema = new mongoose.Schema({
     contenido:{
+        type: String,
+        require: true,
+        minlength: 50
+    },
+    practica:{
         type: String,
         require: true
     }
-});
+},
+{
+    timestamps:true
+}
+);
 
-module.exports= Feedbacks;
+const Feedbacks = mongoose.model('Feedback', FeedbacksSchema);

@@ -1,25 +1,23 @@
 const mongoose = require('mongoose');
 
 const Cuadrilla = mongoose.model('Cuadrilla', {
-    nombre:{
+    nombre: {
         type: String,
-        minlength:3,
-        maxlength:32,
-        require:true
-
+        minlength: 3,
+        maxlength: 32,
+        require: true
     },
 
-    brigadistas:{
-        type: Array,
-        default: []
-    },
+    brigadistas: [{
+        type: mongoose.Schema.ObjectId,
+        ref: "Brigadista"
+    }],
 
-    sector:{
+    sector: {
         type: String,
-        minlength:3,
-        require:true
+        minlength: 3,
+        require: true
     }
-
 });
 
-module.exports= Cuadrilla;
+module.exports = Cuadrilla;

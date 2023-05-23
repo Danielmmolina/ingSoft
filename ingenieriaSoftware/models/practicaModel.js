@@ -39,6 +39,11 @@ const Practica = mongoose.model('Practica', {
         maxlength: 25,
         require: true
     },
+    
+    comentarios:{
+        type: Array,
+        default: []
+    }
 
 });
 
