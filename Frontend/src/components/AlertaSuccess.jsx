@@ -4,16 +4,14 @@ export const AlertaSuccess = () => {
     const {
         isOpen: isVisible,
         onClose,
-        onOpen,
     } = useDisclosure({ defaultIsOpen: true })
     return isVisible ? (
         <Alert status='success'>
             <AlertIcon />
             <Box>
-                <AlertTitle>Success!</AlertTitle>
+                <AlertTitle>Éxito!</AlertTitle>
                 <AlertDescription>
-                    Your application has been received. We will review your application
-                    and respond within the next 48 hours.
+                    El brigadista se ha registrado con éxito
                 </AlertDescription>
             </Box>
             <CloseButton
@@ -24,7 +22,5 @@ export const AlertaSuccess = () => {
                 onClick={onClose}
             />
         </Alert>
-    ) : (
-        <Button onClick={onOpen}>Show Alert</Button>
-    )
+    ) : ''
 }

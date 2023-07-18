@@ -1,19 +1,19 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButton, useDisclosure } from "@chakra-ui/react"
+import { useState } from "react"
 
-export const AlertaError = () => {
+export const AlertaError = ({mensaje}) => {
+
     const {
         isOpen: isVisible,
         onClose,
-        onOpen,
     } = useDisclosure({ defaultIsOpen: true })
     return isVisible ? (
         <Alert status='error'>
             <AlertIcon />
             <Box>
-                <AlertTitle>Success!</AlertTitle>
+                <AlertTitle>Error!</AlertTitle>
                 <AlertDescription>
-                    Your application has been received. We will review your application
-                    and respond within the next 48 hours.
+                    {mensaje}
                 </AlertDescription>
             </Box>
             <CloseButton
@@ -24,7 +24,5 @@ export const AlertaError = () => {
                 onClick={onClose}
             />
         </Alert>
-    ) : (
-        <Button onClick={onOpen}>Show Alert</Button>
-    )
+    ) : ''
 }

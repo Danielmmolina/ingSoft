@@ -8,11 +8,11 @@ import { AlertaError } from "./AlertaError";
 export const FormBrigadista = () => {
   const { form, changed } = useForm({});
   const [saved, setSaved] = useState("not_saved");
+  const [mensaje, setMensaje] = useState('');
 
   const sendForm = async (e) => {
     e.preventDefault();
     let newBrigadista = form;
-    console.log('form', newBrigadista);
 
     const request = await fetch(Global.url + 'createBrigadista', {
       method: 'POST',
@@ -22,10 +22,12 @@ export const FormBrigadista = () => {
       }
     });
     const data = await request.json();
-    console.log(data);
-    if (data.status === 'success') {
+
+    if (data.status == 'success') {
       setSaved("saved");
     } else {
+      let message = data.message
+      setMensaje(message)
       setSaved("error");
     }
   }
@@ -51,7 +53,7 @@ export const FormBrigadista = () => {
           <Input placeholder='Rut' name="rut" onChange={changed} />
         </FormControl>
 
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Edad</FormLabel>
           <NumberInput max={100} min={18} >
             <NumberInputField name="edad" onChange={changed} />
@@ -63,13 +65,13 @@ export const FormBrigadista = () => {
         </FormControl>
 
       </HStack>
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel>Email</FormLabel>
         <Input type='email' name="email" onChange={changed} />
         <FormHelperText>email@gmail.com</FormHelperText>
       </FormControl>
 
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel>Teléfono</FormLabel>
         <NumberInput >
           <NumberInputField name="telefono" onChange={changed} />
@@ -80,7 +82,10 @@ export const FormBrigadista = () => {
       <br />
       {saved === 'saved' ?
         <AlertaSuccess />
-        : <AlertaError />}
+        : ''}
+      {saved === 'error' ?
+        <AlertaError mensaje={mensaje}/> 
+      :''}
 
     </>
 

@@ -13,46 +13,87 @@ const createBrigadista = (req, res) => {
         telefono
     });
 
-    // console.log(newBrigadista.nombre,newBrigadista.apellido, newBrigadista.rut, newBrigadista.email, newBrigadista.edad, newBrigadista.telefono)
-
-    //validaciones
-    if (newBrigadista.nombre.length<3 || newBrigadista.apellido.length<3 || newBrigadista.rut.length<3 || newBrigadista.email.length<3 || newBrigadista.telefono.length<3) {
-        console.log(newBrigadista)
-        return res.status(400).send('ERROR: debe ingresar los datos de forma correcta');
+    if (newBrigadista.nombre === undefined || newBrigadista.apellido === undefined || newBrigadista.rut === undefined || newBrigadista.email === undefined || newBrigadista.telefono === undefined || newBrigadista.edad === undefined ) {
+        return res.status(400).send({
+            status: 'error',
+            message: 'verifique que todos los campos esten completos'
+        });
     }
-    var indexRut = newBrigadista.rut.indexOf('-');
-    console.log(indexRut);
+    if (newBrigadista.rut !== undefined) {
+        var indexRut = newBrigadista.rut.indexOf('-');
+    }else{
+        return res.status(400).send({
+            status: 'error',
+            message: 'Ingrese un rut (ej: 12345673-8)'
+        });
+    }
+    
+    
 
         for (let i = 0; i < indexRut; i++) {
             if (newBrigadista.rut[i]>=0 && newBrigadista.rut[i]<10) {
                 continue;
             }else{
-                return res.status(400).send('ERROR: Ingrese un rut valido (ej: 12345673-8)')
+                return res.status(400).send({
+                        status: 'error',
+                        message: 'Ingrese un rut valido (ej: 12345673-8)'
+                    })
             }
         }
         if (newBrigadista.rut[indexRut]!=='-') {
-            return res.status(400).send('ERROR: No se encuentra el guion, ingrese un rut valido (ej: 12345673-8)')
+            return res.status(400).send({
+                status: 'error',
+                message: 'No se encuentra el guion, ingrese un rut valido (ej: 12345673-8)'
+            })
+
         }
         if (!(newBrigadista.rut[indexRut+1]>0 && newBrigadista.rut[indexRut+1]<10 || newBrigadista.rut[indexRut+1]=='k')) {
-            return res.status(400).send('ERROR: El digito verificar es invalido, ingrese un rut valido (ej: 1234567-8)')
+            return res.status(400).send({
+                status: 'error',
+                message: 'El digito verificar es invalido, ingrese un rut valido (ej: 1234567-8)'
+            })
+            
         }
 
-    
+    if (newBrigadista.email === undefined) {
+        return res.status(400).send({
+            status: 'error',
+            message: 'Ingrese un email'
+        });
+    }
     if (!newBrigadista.email.endsWith("@gmail.com")) {
-        return res.status(400).send('ERROR: Ingrese un dominio valido');
+        return res.status(400).send({
+            status: 'error',
+            message: 'Ingrese un dominio valido en el campo email'
+        });
+    }
+    if (newBrigadista.telefono === undefined) {
+        return res.status(400).send({
+            status: 'error',
+            message: 'Ingrese un numero te telefono (ej: 952345678)'
+        });
     }
     if (newBrigadista.telefono.toString().length!==9 ) {
-        return res.status(400).send('ERROR: Ingrese un numero valido (ej: 952345678)');
+        return res.status(400).send({
+            status: 'error',
+            message: 'Ingrese un numero te telefono valido (ej: 952345678)'
+        });
     }
     if (newBrigadista.edad<18) {
-        return res.status(400).send('ERROR: El brigadista debe ser mayor a 18 años');
+        return res.status(400).send({
+            status: 'error',
+            message: 'El brigadista debe ser mayor a 18 años'
+        });
     }
 
     //hasta aqui las validaciones
     newBrigadista.save((err, brigadista) => {
 
         if(err){
-            return res.status(400).send('ERROR: no se pudo crear el brigadista');
+            return res.status(400).send({
+                status: 'error',
+                message: 'no se pudo crear el brigadista, verifique que no exista o que todos los campos esten completos'
+            });
         }else{
             return res.status(201).send({
                 status: 'success',
