@@ -109,9 +109,15 @@ const getBrigadistas = (req, res) => {
 
     brigadista.find({}, (err, brigadistas) =>{
         if(err){
-            return res.status(400).send('ERROR: no se pudieron obtener los brigadistas');
+            return res.status(400).send({
+                status: 'error',
+                message: 'ERROR: no se pudieron obtener los brigadistas'
+            });
         }
-        return res.status(201).send(brigadistas);
+        return res.status(201).send({
+            status: 'success',
+            brigadistas
+        });
     })
 
 }
