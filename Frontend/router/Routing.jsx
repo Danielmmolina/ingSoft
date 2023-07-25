@@ -1,0 +1,30 @@
+import { Routes, Route, BrowserRouter, Link } from 'react-router-dom';
+import {LayoutMain} from '../layout/LayoutMain'
+import { ListarBrigadista } from '../src/components/ListarBrigadista';
+import { ActualizarBrigadista } from '../src/components/ActualizarBrigadista';
+import { FormBrigadista } from '../src/components/FormBrigadista';
+export const Routing = () => {
+    return (
+      <BrowserRouter>
+          <Routes>
+              <Route path='/' element={<LayoutMain/>}>
+                <Route index element={<ListarBrigadista/>}/>
+                <Route path='listarBrigadista' element={<ListarBrigadista/>}/>
+                <Route path='actualizarBrigadista' element={<ActualizarBrigadista/>}/>
+                <Route path='registrarBrigadista' element={<FormBrigadista/>}/>
+              </Route>
+  
+              <Route path='*' element={
+                <>
+                  <p>
+                    <h1>ERROR 404</h1>
+                    <Link to='/'>Volver al inicio</Link>
+                  </p>
+                </>
+              }
+              />
+          </Routes>
+      </BrowserRouter>
+    )
+  }
+  

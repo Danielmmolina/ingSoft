@@ -26,7 +26,9 @@ mongoose.connect(process.env.DB,(error) =>{
 
 //Llamado de rutas
 app.use(cors());
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.options('*', cors());
 app.use('/api', feedbackRoutes);
 app.use('/api', practicaRoutes);
@@ -34,7 +36,6 @@ app.use('/api', brigadistaRoutes);
 app.use('/api', cuadrillaRoutes);
 app.use('/api', nodemailerRoutes);
 app.use('/api', addCommentsRoutes);
-
 
 
 app.listen(process.env.PORT, () => {

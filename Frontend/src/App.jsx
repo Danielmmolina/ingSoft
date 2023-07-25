@@ -1,7 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { ColorMode } from './components/ColorMode'
-import { FormBrigadista } from './components/FormBrigadista'
-import { ListarBrigadista } from './components/ListarBrigadista'
+import { Routing } from '../router/Routing'
 
 function App() {
 
@@ -9,8 +8,7 @@ function App() {
   return (
     <ChakraProvider>
       <ColorMode/>
-        <FormBrigadista/>
-        <ListarBrigadista/>
+        <Routing/>
     </ChakraProvider>
   )
 }
