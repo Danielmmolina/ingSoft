@@ -2,6 +2,7 @@ import { Box, Button, Container, FormControl, FormHelperText, FormLabel, HStack,
 import { useForm } from "../hooks/useForm";
 import { useState } from "react";
 import { Global } from '../helpers/Global'
+import { Link } from "react-router-dom";
 
 export const ActualizarBrigadista = ({ newBrigadista }) => {
     const { form, changed } = useForm({});
@@ -14,7 +15,7 @@ export const ActualizarBrigadista = ({ newBrigadista }) => {
         setLoading(true);
         let updateBrigadista = form;
 
-        const request = await fetch(Global.url + 'updateBrigadista/'+newBrigadista._id1, {
+        const request = await fetch(Global.url + 'updateBrigadista/'+newBrigadista._id, {
             method: 'PUT',
             body: JSON.stringify(updateBrigadista),
             headers: {
@@ -77,7 +78,7 @@ export const ActualizarBrigadista = ({ newBrigadista }) => {
                     <FormHelperText>Debe comenzar con 9 y seguir de 8 digitos</FormHelperText>
                 </FormControl>
                 <Box marginLeft={'60'}>
-                    <Button mt={4} colorScheme='teal' type='submit' onClick={sendForm}>Enviar</Button>
+                    <Button mt={4} colorScheme='teal' type='submit' onClick={sendForm}><Link to={'/inicio/cargando'}>Enviar</Link></Button>
                 </Box>
                 <br />
                 {/* {saved === 'saved' ?

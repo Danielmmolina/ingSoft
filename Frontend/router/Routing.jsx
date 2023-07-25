@@ -3,12 +3,14 @@ import {LayoutMain} from '../layout/LayoutMain'
 import { ListarBrigadista } from '../src/components/ListarBrigadista';
 import { ActualizarBrigadista } from '../src/components/ActualizarBrigadista';
 import { FormBrigadista } from '../src/components/FormBrigadista';
+import { Cargando } from '../src/components/Cargando';
 export const Routing = () => {
     return (
       <BrowserRouter>
           <Routes>
-              <Route path='/' element={<LayoutMain/>}>
+              <Route path='/inicio' element={<LayoutMain/>}>
                 <Route index element={<ListarBrigadista/>}/>
+                <Route path='cargando' element={<Cargando/>}/>
                 <Route path='listarBrigadista' element={<ListarBrigadista/>}/>
                 <Route path='actualizarBrigadista' element={<ActualizarBrigadista/>}/>
                 <Route path='registrarBrigadista' element={<FormBrigadista/>}/>
@@ -18,7 +20,7 @@ export const Routing = () => {
                 <>
                   <p>
                     <h1>ERROR 404</h1>
-                    <Link to='/'>Volver al inicio</Link>
+                    <Link to='/inicio'>Volver al inicio</Link>
                   </p>
                 </>
               }

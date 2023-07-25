@@ -119,19 +119,19 @@ const getBrigadistas = (req, res) => {
     //     });
     // })
     // if (req.params.input) {
-        let input = req.params.input;
+        // let input = req.params.input;
 
         brigadista.find({}, (err, brigadistas) =>{
-            if (req.params.input) {
-                let input = req.params.input;
-                console.log('el input es:' ,input);
-                const emailBrigadistas = brigadistas.filter(brigadista => brigadista.email.startsWith(input));
-                console.log(emailBrigadistas)
-                return res.status(201).send({
-                    status: 'success',
-                    emailBrigadistas
-                });
-            }
+            // if (req.params.input) {
+            //     let input = req.params.input;
+            //     console.log('el input es:' ,input);
+            //     const emailBrigadistas = brigadistas.filter(brigadista => brigadista.email.startsWith(input));
+            //     console.log(emailBrigadistas)
+            //     return res.status(201).send({
+            //         status: 'success',
+            //         emailBrigadistas
+            //     });
+            // }
             if(err){
                 return res.status(400).send({
                     status: 'error',

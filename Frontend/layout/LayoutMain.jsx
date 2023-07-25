@@ -1,10 +1,14 @@
 import { Outlet } from "react-router-dom"
+import { Header } from "./Header"
 
 export const LayoutMain = () => {
     return (
-        <section className="layout__content">
-            <Outlet />
-            <h1>Hola</h1>
-        </section>
+        <>
+            <Header />
+            <section className="layout__content">
+                <Outlet />
+            </section>
+        </>
+
     )
 }

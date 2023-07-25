@@ -2,23 +2,30 @@ import { Button, Container, Heading, Input, Table, TableContainer, Tbody, Td, Th
 import { Global } from '../helpers/Global'
 import { useEffect, useState } from "react"
 import { ActualizarBrigadista } from "./ActualizarBrigadista";
+import { Link, Navigate } from "react-router-dom";
 
 export const ListarBrigadista = () => {
     const [brigadistas, setBrigadistas] = useState([]);
     const [newBrigadista, setNewBrigadista] = useState([]);
     const [emailInput, setEmailInput] = useState([]);
     const [actualizar, setActualizar] = useState(false);
+    const [navegar, setNavegar] = useState(false);
 
     useEffect(() => {
         getBrigadistas();
     }, [])
-    const limpiar = () => {
-
-    }
     useEffect(() => {
-        getBrigadistas(emailInput);
-
+        console.log("Brigadista")
+        const emailsArray = brigadistas.filter(brigadista => brigadista.email.startsWith(emailInput));
+        setBrigadistas(emailsArray);
     }, [emailInput])
+    const limpiar = () => {
+        
+    }
+    // useEffect(() => {
+    //     getBrigadistas(emailInput);
+
+    // }, [emailInput])
 
     const getBrigadistas = async (emailInput = '') => {
         const request = await fetch(Global.url + 'getBrigadistas/' + emailInput, {
@@ -28,10 +35,8 @@ export const ListarBrigadista = () => {
             }
         })
         const data = await request.json();
-        console.log(data)
 
         if (data.status === 'success') {
-            console.log('e', emailInput)
             setBrigadistas(data.brigadistas);
         }
     }
@@ -59,11 +64,14 @@ export const ListarBrigadista = () => {
                 'Content-Type': 'aplication/json'
             }
         });
+        setTimeout(() => {
+            console.log('a');
+            setNavegar(true);
+        }, 1000);
         const data = await request.json();
-        console.log(data);
+        
     }
     const actualizarBrigadista = async (brigadista) => {
-        console.log(brigadista)
         setNewBrigadista(brigadista)
         setActualizar(true);
         
@@ -78,7 +86,7 @@ export const ListarBrigadista = () => {
 
     return (
         <>
-            <Heading as={'h1'} mt={'300'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
+            <Heading as={'h1'}  fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
             <Container maxW='container.xl'>
                 <Input
                     width={'30%'}
@@ -109,7 +117,7 @@ export const ListarBrigadista = () => {
                                         <Td>{brigadista.rut}</Td>
                                         <Td>{brigadista.telefono}</Td>
                                         <Td>{brigadista.email}</Td>
-                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}>Actualizar</Button></Td>
+                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}><Link >Actualizar</Link></Button></Td>
                                         <Td><Button colorScheme='red' onClick={() => eliminarBrigadista(brigadista._id)}>Eliminar</Button></Td>
                                         
                                     </Tr>
@@ -122,6 +130,7 @@ export const ListarBrigadista = () => {
                 </TableContainer>
             </Container>
             {actualizar? <ActualizarBrigadista newBrigadista={newBrigadista}/> : ''}
+            {navegar ? <Navigate to={'/inicio'}/> : ''}
         </>
     )
 
