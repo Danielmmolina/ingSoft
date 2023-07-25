@@ -12,7 +12,7 @@ export const Routing = () => {
                 <Route index element={<ListarBrigadista/>}/>
                 <Route path='cargando' element={<Cargando/>}/>
                 <Route path='listarBrigadista' element={<ListarBrigadista/>}/>
-                <Route path='actualizarBrigadista' element={<ActualizarBrigadista/>}/>
+                <Route path='actualizarBrigadista/:id' element={<ActualizarBrigadista/>}/>
                 <Route path='registrarBrigadista' element={<FormBrigadista/>}/>
               </Route>
   

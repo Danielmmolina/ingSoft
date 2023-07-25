@@ -6,6 +6,7 @@ const exportController = require('../controllers/exportController');
 api.post('/createBrigadista', brigadistaController.createBrigadista);
 api.get('/getBrigadistas/:input?', brigadistaController.getBrigadistas);
 api.get('/getBrigadistaByInput', brigadistaController.getBrigadistaByInput);
+api.get('/getSpecificBrigadista/:id', brigadistaController.getSpecificBrigadista);
 // api.get('/getByName', brigadistaController.getByName);
 api.delete('/deleteBrigadista/:id', brigadistaController.deleteBrigadista);
 api.put('/updateBrigadista/:id', brigadistaController.updateBrigadista);

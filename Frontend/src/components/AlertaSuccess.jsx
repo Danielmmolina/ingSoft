@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButton, useDisclosure } from "@chakra-ui/react"
+import { Alert, AlertIcon, AlertTitle, Box, CloseButton, useDisclosure } from "@chakra-ui/react"
 
 export const AlertaSuccess = () => {
     const {
@@ -10,9 +10,6 @@ export const AlertaSuccess = () => {
             <AlertIcon />
             <Box>
                 <AlertTitle>Éxito!</AlertTitle>
-                <AlertDescription>
-                    El brigadista se ha registrado con éxito
-                </AlertDescription>
             </Box>
             <CloseButton
                 alignSelf='flex-start'

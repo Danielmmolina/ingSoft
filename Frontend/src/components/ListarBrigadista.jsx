@@ -3,32 +3,47 @@ import { Global } from '../helpers/Global'
 import { useEffect, useState } from "react"
 import { ActualizarBrigadista } from "./ActualizarBrigadista";
 import { Link, Navigate } from "react-router-dom";
+import { AlertaSuccess } from "./AlertaSuccess";
 
 export const ListarBrigadista = () => {
     const [brigadistas, setBrigadistas] = useState([]);
     const [newBrigadista, setNewBrigadista] = useState([]);
     const [emailInput, setEmailInput] = useState([]);
     const [actualizar, setActualizar] = useState(false);
-    const [navegar, setNavegar] = useState(false);
-
+    const [cargando, setCargando] = useState(false);
+    const [brigadistasInput, setBrigadistasInput] = useState([]);
     useEffect(() => {
         getBrigadistas();
     }, [])
     useEffect(() => {
-        console.log("Brigadista")
-        const emailsArray = brigadistas.filter(brigadista => brigadista.email.startsWith(emailInput));
-        setBrigadistas(emailsArray);
+        conseguirArray(emailInput)
+        console.log(emailInput)
     }, [emailInput])
-    const limpiar = () => {
+    const conseguirArray = async(emailInput) => {
+        console.log('brigadistas',brigadistas)
         
+        let emailsArray= await (brigadistas.filter(brigadista => brigadista.email.startsWith(emailInput)));
+        
+        console.log('primer',emailsArray);
+        
+        console.log('brigadistas',brigadistas)
+        const setear = async (emailsArray) => {
+            await setBrigadistas(emailsArray);
+        }
+        setear(emailsArray);
+        console.log('brigadistas',brigadistas)
+        
+    }
+    const limpiar = () => {
+        location.reload();
     }
     // useEffect(() => {
     //     getBrigadistas(emailInput);
 
     // }, [emailInput])
 
-    const getBrigadistas = async (emailInput = '') => {
-        const request = await fetch(Global.url + 'getBrigadistas/' + emailInput, {
+    const getBrigadistas = async () => {
+        const request = await fetch(Global.url + 'getBrigadistas/' , {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"
@@ -58,6 +73,7 @@ export const ListarBrigadista = () => {
     //     setBrigadistas(emailsArray);
     // }
     const eliminarBrigadista = async (brigadista) => {
+        setCargando(true);
         const request = await fetch(Global.url + 'deleteBrigadista/' + brigadista, {
             method: 'DELETE',
             headers: {
@@ -65,8 +81,8 @@ export const ListarBrigadista = () => {
             }
         });
         setTimeout(() => {
-            console.log('a');
-            setNavegar(true);
+            setCargando(false);
+            location.reload();
         }, 1000);
         const data = await request.json();
         
@@ -95,8 +111,8 @@ export const ListarBrigadista = () => {
                     placeholder='Buscar por email...'
                     _placeholder={{ color: 'inherit' }} onChange={changed}
                 />
-                <Button>Limpiar</Button>
-                <TableContainer pb={'100'}>
+                <Button onClick={limpiar} m={3} >Limpiar</Button>
+                <TableContainer >
                     <Table variant='striped' colorScheme='teal'>
                         {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
                         <Thead>
@@ -117,20 +133,20 @@ export const ListarBrigadista = () => {
                                         <Td>{brigadista.rut}</Td>
                                         <Td>{brigadista.telefono}</Td>
                                         <Td>{brigadista.email}</Td>
-                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}><Link >Actualizar</Link></Button></Td>
+                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}><Link to={'/inicio/actualizarBrigadista/'+brigadista._id} >Actualizar</Link></Button></Td>
                                         <Td><Button colorScheme='red' onClick={() => eliminarBrigadista(brigadista._id)}>Eliminar</Button></Td>
                                         
                                     </Tr>
                                 )
                             })}
-
-
+                            
                         </Tbody>
+                        
                     </Table>
                 </TableContainer>
+                {cargando ? <AlertaSuccess/> : '' }
             </Container>
             {actualizar? <ActualizarBrigadista newBrigadista={newBrigadista}/> : ''}
-            {navegar ? <Navigate to={'/inicio'}/> : ''}
         </>
     )
 

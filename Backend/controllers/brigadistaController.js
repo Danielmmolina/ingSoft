@@ -106,6 +106,7 @@ const createBrigadista = (req, res) => {
 //se crea controlador para obtener brigadistas
 
 const getBrigadistas = (req, res) => {
+
     // brigadista.find({}, (err, brigadistas) =>{
     //     if(err){
     //         return res.status(400).send({
@@ -146,6 +147,21 @@ const getBrigadistas = (req, res) => {
 
     
 
+}
+const getSpecificBrigadista = (req, res) => {
+    const {id} = req.params;
+    brigadista.findById(id, (err, brigadistas) => {
+        if(err){
+            return res.status(400).send('ERROR: no se encontro al brigadista');
+        }
+        if(!brigadistas){
+            return res.status(404).send('ERROR: brigadista  no encontrado');
+        }
+        return res.status(200).send({
+            status:'success',
+            brigadistas
+        })
+    })
 }
 
 const getBrigadistaByInput = (req,res) =>{
@@ -218,7 +234,10 @@ const updateBrigadista = (req, res) => {
             return res.status(404).send('ERROR: brigadista  no encontrado');
         }
 
-        return res.status(201).send(brigadistas)
+        return res.status(201).send({
+            status:'success',
+            brigadistas
+        })
     })
 }
 
@@ -228,5 +247,6 @@ module.exports ={
     getBrigadistaByInput,
     deleteBrigadista,
     updateBrigadista,
+    getSpecificBrigadista
     // getByName
 }
