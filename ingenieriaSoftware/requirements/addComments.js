@@ -13,12 +13,7 @@ const addComentario = async (req, res) => {
            
             Comments.find({practica: {$eq: id}}, (err, comentarios) => {
 
-                const practicasID = comentarios.map(comentario => comentario.practica);
-
-                if(!practicasID.includes(id)){  //En caso de que la ID no se encuentre registrada en ningun comentario, se devolverá un mensaje diciendo que la practica no tiene comentarios realizados
-
-                    return res.status(404).send("No existe ningun comentario para la práctica ingresada");
-                }
+                
             
                 if(err) {   
                     reject(err);        //En caso de algun error se ejecutará esta funcion de reject, que significa que se rechaza la promesa.
@@ -31,6 +26,9 @@ const addComentario = async (req, res) => {
 
         const contenidos = await Promise.all([comentarioPromise]);  //Se espera a que la promesa se resuelva y los valores encontrados se le asigna a la variable contenidos. 
        
+      
+
+
         practicaModel.findByIdAndUpdate(id, {comentarios: contenidos}, (err, practicas) =>{     //Una vez que se resuelve la promesa, con la misma ID enviada por parametro se filtra 
                                                                                                     //y se le añaden los comentarios correspondientes.
             if(err){
