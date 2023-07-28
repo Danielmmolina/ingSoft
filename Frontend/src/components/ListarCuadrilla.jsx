@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Global } from '../helpers/Global';
-import { Container, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Select, ModalFooter } from "@chakra-ui/react"
+import { Checkbox, CheckboxGroup, Container, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Select, ModalFooter, List, ListItem } from "@chakra-ui/react"
 
 export const ListarCuadrilla = () => {
   const [cuadrillas, setCuadrillas] = useState([]);
@@ -131,13 +131,16 @@ export const ListarCuadrilla = () => {
           <ModalHeader>Añadir brigadista</ModalHeader>
           <ModalCloseButton /> {/* EL CLOSE BUTTON AÑADE EL BOTON DE CERRAR ARRIBA A LA DERECHA */}
           <ModalBody>
-            <Select placeholder="Seleccione un brigadista" onChange={seleccion}>
-              {brigadistas.map((brigadista) => (
-                <option key={brigadista.nombre} value={brigadista.nombre}>
-                  {brigadista.nombre} {brigadista.apellido}
-                </option>
-              ))}
-            </Select>
+          <CheckboxGroup onChange={seleccion}>
+           <List>
+            {brigadistas.map((brigadista) => (
+            <ListItem key={brigadista.nombre}>
+             <Checkbox value={brigadista.nombre}>{brigadista.nombre} {brigadista.apellido}</Checkbox>
+             
+                  </ListItem>
+               ))}
+                </List>
+              </CheckboxGroup>
           </ModalBody>
 
           <ModalFooter>
@@ -156,10 +159,10 @@ export const ListarCuadrilla = () => {
           <ModalCloseButton />
           <ModalBody>
             <Select placeholder="Selecciona una cuadrilla" onChange={handleIdChange}>
-        {cuadrillas.map((cuadrilla) => (
-          <option key={cuadrilla._id} value={cuadrilla._id}>
+            {cuadrillas.map((cuadrilla) => (
+            <option key={cuadrilla._id} value={cuadrilla._id}>
             {cuadrilla.nombre}
-          </option>
+            </option>
         ))}
       </Select>
           </ModalBody>
