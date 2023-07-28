@@ -9,7 +9,8 @@ import { Navigate } from "react-router-dom";
 export const FormBrigadista = () => {
   const { form, changed } = useForm({});
   const [saved, setSaved] = useState("not_saved");
-  const [mensaje, setMensaje] = useState('');
+  const [mensajeError, setMensajeError] = useState('');
+  const [mensajeSuccess, setMensajeSuccess] = useState('');
   const [loading, setLoading] = useState();
   const [navegar, setNavegar] = useState(false);
 
@@ -30,12 +31,16 @@ export const FormBrigadista = () => {
     if (data.status == 'success') {
       setSaved("saved");
       setLoading(false);
+      console.log(data)
+      let message = data.message
+      console.log(message);
+      setMensajeSuccess(message)
       setTimeout(function(){
         setNavegar(true)
       }, 1000);
     } else {
       let message = data.message
-      setMensaje(message)
+      setMensajeError(message)
       setSaved("error");
       setLoading()
     }
@@ -97,10 +102,10 @@ export const FormBrigadista = () => {
         </Box>
         <br />
         {saved === 'saved' ?
-           <AlertaSuccess />
+           <AlertaSuccess mensaje={mensajeSuccess}/>
           : ''}
         {saved === 'error' ?
-          <AlertaError mensaje={mensaje} />
+          <AlertaError mensaje={mensajeError} />
           : ''}
         {loading ?
           <Box marginLeft={'60'}>

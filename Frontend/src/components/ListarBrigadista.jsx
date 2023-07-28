@@ -8,31 +8,26 @@ import { AlertaSuccess } from "./AlertaSuccess";
 export const ListarBrigadista = () => {
     const [brigadistas, setBrigadistas] = useState([]);
     const [newBrigadista, setNewBrigadista] = useState([]);
-    const [emailInput, setEmailInput] = useState([]);
+    const [emailInput, setEmailInput] = useState('');
     const [actualizar, setActualizar] = useState(false);
     const [cargando, setCargando] = useState(false);
-    const [brigadistasInput, setBrigadistasInput] = useState([]);
     useEffect(() => {
         getBrigadistas();
     }, [])
     useEffect(() => {
         conseguirArray(emailInput)
-        console.log(emailInput)
+        
     }, [emailInput])
-    const conseguirArray = async(emailInput) => {
-        console.log('brigadistas',brigadistas)
-        
-        let emailsArray= await (brigadistas.filter(brigadista => brigadista.email.startsWith(emailInput)));
-        
-        console.log('primer',emailsArray);
-        
-        console.log('brigadistas',brigadistas)
+    const conseguirArray = async (emailInput) => {
+        let emailsArray = await (brigadistas.filter(brigadista => brigadista.email.startsWith(emailInput)));
+
         const setear = async (emailsArray) => {
             await setBrigadistas(emailsArray);
         }
+
         setear(emailsArray);
-        console.log('brigadistas',brigadistas)
-        
+
+
     }
     const limpiar = () => {
         location.reload();
@@ -43,7 +38,7 @@ export const ListarBrigadista = () => {
     // }, [emailInput])
 
     const getBrigadistas = async () => {
-        const request = await fetch(Global.url + 'getBrigadistas/' , {
+        const request = await fetch(Global.url + 'getBrigadistas/', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"
@@ -85,12 +80,12 @@ export const ListarBrigadista = () => {
             location.reload();
         }, 1000);
         const data = await request.json();
-        
+
     }
     const actualizarBrigadista = async (brigadista) => {
         setNewBrigadista(brigadista)
         setActualizar(true);
-        
+
         //     const request = await fetch(Global.url+'updateBrigadista/'+brigadista,{
         //         method: 'PUT',
         //         body: 
@@ -102,7 +97,7 @@ export const ListarBrigadista = () => {
 
     return (
         <>
-            <Heading as={'h1'}  fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
+            <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
             <Container maxW='container.xl'>
                 <Input
                     width={'30%'}
@@ -133,20 +128,20 @@ export const ListarBrigadista = () => {
                                         <Td>{brigadista.rut}</Td>
                                         <Td>{brigadista.telefono}</Td>
                                         <Td>{brigadista.email}</Td>
-                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}><Link to={'/inicio/actualizarBrigadista/'+brigadista._id} >Actualizar</Link></Button></Td>
+                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}><Link to={'/inicio/actualizarBrigadista/' + brigadista._id} >Actualizar</Link></Button></Td>
                                         <Td><Button colorScheme='red' onClick={() => eliminarBrigadista(brigadista._id)}>Eliminar</Button></Td>
-                                        
+
                                     </Tr>
                                 )
                             })}
-                            
+
                         </Tbody>
-                        
+
                     </Table>
                 </TableContainer>
-                {cargando ? <AlertaSuccess/> : '' }
+                {cargando ? <AlertaSuccess /> : ''}
             </Container>
-            {actualizar? <ActualizarBrigadista newBrigadista={newBrigadista}/> : ''}
+            {actualizar ? <ActualizarBrigadista newBrigadista={newBrigadista} /> : ''}
         </>
     )
 

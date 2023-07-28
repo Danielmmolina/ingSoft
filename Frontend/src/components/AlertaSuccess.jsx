@@ -1,6 +1,7 @@
-import { Alert, AlertIcon, AlertTitle, Box, CloseButton, useDisclosure } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton, useDisclosure } from "@chakra-ui/react"
 
-export const AlertaSuccess = () => {
+export const AlertaSuccess = ({mensaje}) => {
+    console.log(mensaje)
     const {
         isOpen: isVisible,
         onClose,
@@ -10,6 +11,9 @@ export const AlertaSuccess = () => {
             <AlertIcon />
             <Box>
                 <AlertTitle>Éxito!</AlertTitle>
+                <AlertDescription>
+                    {mensaje}
+                </AlertDescription>
             </Box>
             <CloseButton
                 alignSelf='flex-start'
