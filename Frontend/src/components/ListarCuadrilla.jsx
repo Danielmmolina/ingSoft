@@ -93,7 +93,7 @@ export const ListarCuadrilla = () => {
 
           <Container maxW='container.xl' display='flex' justifyContent='flex-end'>
            <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar</Button>
-           <Button colorScheme="teal" variant="outline" onClick={() => setIsOpenId(true)} ml={2}>Exportar por ID</Button>
+           <Button colorScheme="teal" variant="outline" onClick={() => setIsOpenId(true)} ml={2}>Exportar por nombre</Button>
           </Container>
 
                           {/* LISTADO */}
