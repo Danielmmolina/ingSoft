@@ -30,13 +30,9 @@ export const ListarPractica = () => {
     });
 
     const data = await request.json();
-    console.log(data.practica, "Data");
 
-    if (data.status === 'success') {
-      console.log(data.practica, "Data");
-      setPracticas(data.practica);
-      console.log("practicas: ", practicas);
-      
+    if (data.status === 'success') {     
+      setPracticas(data.practica);     
     }
   }
 
@@ -48,21 +44,17 @@ export const ListarPractica = () => {
   };
 
   const handleSubmitComentario = () => {
-    console.log("Practicaaaaaaaaaaaaaaaaaaaaaaaaaa"+selectedPracticaIndex+ practicas[selectedPracticaIndex]);
-    const idPractica = practicas[selectedPracticaIndex]._id;
-
-    console.log("El ID de la practica seleccionada es: " + idPractica);
-    console.log("El comentario en la linea 55 es: "+  comentarios);
-
+   
+  
 
     //validaciones
     if(comentarios.trim() === ''){
-      console.log("ENTRA AL COMENTARIO VACIO");
+      
       return alert("El comentario no puede estar vacío. ");
     }
 
     if(comentarios.length < 50){
-      console.log("ENTRA AL COMENTARIO CON -50 CARACTERES ");
+   
       return alert("El comentario es demasiado corto, minimo 50 caracteres");
     }
    
@@ -72,7 +64,7 @@ export const ListarPractica = () => {
       practica: practicas[selectedPracticaIndex]._id
     };
 
-    console.log("La informacion del comentarioData es: "+comentarioData.contenido);
+
   
   
     axios.post(Global.url + 'feedback', comentarioData)
@@ -100,9 +92,6 @@ export const ListarPractica = () => {
 
     ));
 
-    console.log("index del selectedPracticaIndex es: " + selectedPracticaIndex)
-    console.log("la cantidad de comentarios es: " + largoComentarios);
-      console.log("indexComentario es: "+comentarioIndex);
        
   }
 
@@ -111,11 +100,7 @@ export const ListarPractica = () => {
     setSelectedPracticaIndex(index); 
     setIsOpenComentarios(true);
     setComentarioIndex(0);
-    console.log("Index prac: " + selectedPracticaIndex);
-    console.log("La condicion del if eS: "+largoComentarios-1); 
 
-    console.log("linea 116: ", practica.comentarios[0].length);
-    
 
     if(practica.comentarios[0].length === 0){
       
@@ -130,7 +115,7 @@ export const ListarPractica = () => {
 
   const handleNextComentario = () => {
 
-    console.log("La cantidad de comnentariooooos aki es: " +largoComentarios);
+  
 
      
   if (largoComentarios > 0) {
@@ -158,7 +143,7 @@ export const ListarPractica = () => {
     setComentarioIndex(comentarioIndex - 1);
     if(comentarioIndex !== largoComentarios)
     setSiguiente(true);
-    console.log("Index del comentario: " + comentarioIndex)
+  
   };
 
   const handleDeleteComentario = () => {
@@ -226,7 +211,7 @@ export const ListarPractica = () => {
         </ModalContent>
       </Modal>
 
-      <Modal isOpen={isOpenComentarios} onClose={() => {setIsOpenComentarios(false), setSiguiente(true), setLargoComentarios(null)}}>
+      <Modal isOpen={isOpenComentarios} onClose={() => {setIsOpenComentarios(false), setSiguiente(true), setLargoComentarios(null), setExisteComentario(false)}}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader> Comentarios </ModalHeader>
@@ -250,7 +235,7 @@ export const ListarPractica = () => {
                       
                       {
                         
-                        existeComentario?<Td> {comentario[comentarioIndex].contenido}</Td> : ""
+                        existeComentario?<Td> {comentario[comentarioIndex].contenido}</Td> : <Td> No hay comentarios existentes </Td>
                       }
                        
 
@@ -265,7 +250,7 @@ export const ListarPractica = () => {
             </Table>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} >
+            <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} isDisabled={!existeComentario}>
             
 
             </Button>
@@ -282,7 +267,7 @@ export const ListarPractica = () => {
                   
                    }
        
-            <Button colorScheme="blue" mr={3} onClick={() => {setIsOpenComentarios(false), setSiguiente(true), setLargoComentarios(null)}}>Cerrar</Button>
+            <Button colorScheme="blue" mr={3} onClick={() => {setIsOpenComentarios(false), setSiguiente(true), setLargoComentarios(null), setExisteComentario(false)} }>Cerrar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
