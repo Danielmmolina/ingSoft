@@ -29,8 +29,8 @@ export const FormCuadrilla = () => {
         "Content-Type": "application/json"
       }
     });
-    const data = await request.json();
 
+    const data = await request.json();
     if (data.status == 'success') {
       setSaved("saved");
       setLoading(false);
@@ -103,7 +103,7 @@ export const FormCuadrilla = () => {
     </form>
     <br />
       {saved === 'saved' ?
-        <AlertaSuccess />
+        <AlertaSuccess mensaje={'Cuadrilla creada con éxito.'}/>
         : ''}
       {saved === 'error' ?
         <AlertaError mensaje={mensaje}/> 
