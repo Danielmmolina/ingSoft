@@ -19,7 +19,7 @@ const addComentario = async (req, res) => {
                     reject(err);        //En caso de algun error se ejecutará esta funcion de reject, que significa que se rechaza la promesa.
                 }
 
-                const contenidoComentario = comentarios.map(comentario => comentario.contenido);   //En caso de que existan, se usa la funcion .map para obtener solo el contenido de los comentarios       
+                const contenidoComentario = comentarios; //.map(comentario => comentario.contenido);   //En caso de que existan, se usa la funcion .map para obtener solo el contenido de los comentarios       
                 resolve(contenidoComentario);   //el contenido de los comentarios se guardará como Array en la variable "contenidoComentario", y ese se devolvera. 
             });                                 //cuando se ejecuta la funcion resolve quiere decir que la promesa se resolvió sin ningún error.
         });   

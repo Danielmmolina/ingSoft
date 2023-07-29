@@ -1,5 +1,5 @@
 import { Container, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Button, Textarea, Modal, ModalBody, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon} from '@chakra-ui/icons';
 import { Global } from '../helpers/Global';
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,9 +13,11 @@ export const ListarPractica = () => {
   const [selectedPracticaIndex, setSelectedPracticaIndex] = useState(null);
   const [siguiente, setSiguiente] = useState(true);
   const [largoComentarios, setLargoComentarios]=useState(null);
+  const [existeComentario, setExisteComentario]= useState(false);
    
   useEffect(() => {
     getPracticas();
+    
     console.log("aqui vamos 1", practicas);
   }, []);
 
@@ -34,11 +36,14 @@ export const ListarPractica = () => {
       console.log(data.practica, "Data");
       setPracticas(data.practica);
       console.log("practicas: ", practicas);
+      
     }
   }
 
   const handleComentar = (index) => {
     setSelectedPracticaIndex(index);
+   
+
     setIsOpen(true);
   };
 
@@ -102,12 +107,24 @@ export const ListarPractica = () => {
   }
 
 
-  const handleVerComentarios = (index) => {
+  const handleVerComentarios = (index,practica) => {
     setSelectedPracticaIndex(index); 
     setIsOpenComentarios(true);
     setComentarioIndex(0);
     console.log("Index prac: " + selectedPracticaIndex);
-    console.log("La condicion del if eS: "+largoComentarios-1);  
+    console.log("La condicion del if eS: "+largoComentarios-1); 
+
+    console.log("linea 116: ", practica.comentarios[0].length);
+    
+
+    if(practica.comentarios[0].length === 0){
+      
+      setExisteComentario(false);
+    }else{
+      setExisteComentario(true);
+    }
+
+
   };
 
 
@@ -132,16 +149,6 @@ export const ListarPractica = () => {
   };
 
 
-
-
-
-  
-
-
-
-
-
-
   const handlePrevComentario = () => {
 
     
@@ -154,6 +161,14 @@ export const ListarPractica = () => {
     console.log("Index del comentario: " + comentarioIndex)
   };
 
+  const handleDeleteComentario = () => {
+
+
+    
+   
+  }
+
+
 
 
   return (
@@ -163,7 +178,6 @@ export const ListarPractica = () => {
 
         <TableContainer pb={'100'}>
           <Table variant='striped' colorScheme='teal'>
-            {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
             <Thead>
               <Tr>
                 <Th>Nombre práctica</Th>
@@ -183,7 +197,7 @@ export const ListarPractica = () => {
                     <Td>{practica.descripcion}</Td>
                     <Td>{practica.lugar}</Td>
                     <Td>
-                      <Button colorScheme="blue" onClick={() => { handleVerComentarios(index), CantidadComentarios(index)}}>Ver comentarios</Button>
+                      <Button colorScheme="blue" onClick={() => { handleVerComentarios(index, practica), CantidadComentarios(index)}}>Ver comentarios</Button>
                     </Td>
                     <Td>
                       <Button colorScheme='blue' onClick={() => { handleComentar (index) }}>Comentar</Button>
@@ -225,13 +239,23 @@ export const ListarPractica = () => {
                 </Tr>
               </Thead>
               <Tbody>
+                
                 {selectedPracticaIndex !== null &&
                   practicas[selectedPracticaIndex].comentarios.map((comentario, index) => (
                     <Tr key={index}>
                       {console.log("index practicaA: " + selectedPracticaIndex)}
                       
+                     
+                  
+                      
+                      {
                         
-                       <Td> {comentario[comentarioIndex]} </Td>
+                        existeComentario?<Td> {comentario[comentarioIndex].contenido}</Td> : ""
+                      }
+                       
+
+
+                       
                        
                  
                     </Tr>
@@ -241,6 +265,10 @@ export const ListarPractica = () => {
             </Table>
           </ModalBody>
           <ModalFooter>
+            <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} >
+            
+
+            </Button>
             <Button colorScheme="blue" mr={3} onClick={handlePrevComentario} isDisabled={comentarioIndex === 0}>
               <ChevronLeftIcon />
             </Button>
