@@ -1,47 +1,44 @@
 import { useState, useEffect } from 'react';
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  CheckboxGroup,
-  Checkbox,
-  Button,
-  List,
-  ListItem,
-  Container,
-  Heading,
-  Box,
-  Flex,
-} from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, CheckboxGroup, Checkbox, Button, List, ListItem, Container, Heading, Box, Flex, CircularProgress} from '@chakra-ui/react';
 import { Global } from '../helpers/Global';
+import { AlertaSuccess } from "./AlertaSuccess";
+import { AlertaError } from "./AlertaError";
 
 export const FormCuadrilla = () => {
   const [nombre, setNombre] = useState('');
   const [brigadistas, setBrigadistas] = useState([]);
   const [sector, setSector] = useState('');
   const [seleccion, setSeleccion] = useState([]);
+  const [loading, setLoading] = useState();
+  const [mensaje, setMensaje] = useState('');
+  const [saved, setSaved] = useState("not_saved");
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+    setLoading(true);
+    const data2 = {
       nombre: nombre,
       brigadistas: seleccion,
       sector: sector,
     };
     const request = await fetch(Global.url + 'cuadrilla', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(data2),
       headers: {
         "Content-Type": "application/json"
       }
     });
-    const response = await request.json();
-  
-    if (response.status == 'success') {
-      console.log("yes")
+    const data = await request.json();
+
+    if (data.status == 'success') {
+      setSaved("saved");
+      setLoading(false);
     } else {
-      let message = response.message
-      console.log(message)
+      let message = data.message
+      setMensaje(message)
+      setSaved("error");
+      setLoading()
     }
   }
   
@@ -104,6 +101,20 @@ export const FormCuadrilla = () => {
       <Button colorScheme="blue" type="submit">Crear</Button>
       </Flex>
     </form>
+    <br />
+      {saved === 'saved' ?
+        <AlertaSuccess />
+        : ''}
+      {saved === 'error' ?
+        <AlertaError mensaje={mensaje}/> 
+      :''}
+      {loading ?
+        <Box marginLeft={'60'}>
+          <CircularProgress isIndeterminate color='green.300' />
+        </Box>
+        : ''
+      }
+
     </Container>
     </>
   );

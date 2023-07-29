@@ -53,7 +53,7 @@ const createCuadrilla = async (req, res) => {
     if (err) {
       return res.status(400).send('ERROR: no se pudo crear el brigadista');
     }
-    return res.status(201).send(Cuadrilla);
+    return res.status(201).send({status: "success", Cuadrilla, message: 'Cuadrilla creada con exito'});
   });
 };
 
