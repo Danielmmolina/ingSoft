@@ -1,5 +1,9 @@
 import { Container, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Button, Textarea, Modal, ModalBody, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter } from "@chakra-ui/react";
+<<<<<<< Updated upstream
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon} from '@chakra-ui/icons';
+=======
+import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, EditIcon} from '@chakra-ui/icons';
+>>>>>>> Stashed changes
 import { Global } from '../helpers/Global';
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -14,6 +18,11 @@ export const ListarPractica = () => {
   const [siguiente, setSiguiente] = useState(true);
   const [largoComentarios, setLargoComentarios]=useState(null);
   const [existeComentario, setExisteComentario]= useState(false);
+<<<<<<< Updated upstream
+=======
+  const [isOpenEditar, setIsOpenEditar] = useState(false);
+  const [comentarioEditado, setComentarioEditado] = useState('');
+>>>>>>> Stashed changes
    
   useEffect(() => {
     getPracticas();
@@ -43,6 +52,10 @@ export const ListarPractica = () => {
     setIsOpen(true);
   };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const handleSubmitComentario = () => {
    
   
@@ -148,11 +161,73 @@ export const ListarPractica = () => {
 
   const handleDeleteComentario = () => {
 
+<<<<<<< Updated upstream
 
     
    
   }
 
+=======
+ const  comentarioDelete = practicas[selectedPracticaIndex].comentarios[0][comentarioIndex]._id;
+
+ console.log("linea 153: ", comentarioDelete);
+ 
+
+ if(window.confirm("¿Está seguro de esta acción? ")){
+
+ axios.delete(Global.url + 'deleteFeedback/' + comentarioDelete)
+ .then((response) => {
+   console.log('Comentario eliminado:', response.data);
+   setComentarios('');
+   setIsOpen(false);
+   axios.get(Global.url + 'addComentario/' + practicas[selectedPracticaIndex]._id);
+   getPracticas();
+   window.location.reload();
+ })
+ .catch((error) => {
+   console.error('Error al guardar el comentario en el backend:', error);
+ });
+  return alert("Comentario eliminado con exito");
+
+}
+   
+  }
+
+const handleComentarioEditado = () => {
+
+    if(comentarioEditado.trim() === ''){
+      
+        return alert("El comentario no puede estar vacío. ");
+      }
+  
+      if(comentarioEditado.length < 50){
+     
+        return alert("El comentario es demasiado corto, minimo 50 caracteres");
+      }
+
+      const newComentario = {
+        contenido: comentarioEditado
+      }
+
+     axios.put(Global.url + 'updateFeedback/' + practicas[selectedPracticaIndex].comentarios[0][comentarioIndex]._id, newComentario)
+     .then((response) => {
+        console.log('Comentario actualizado: ', response.data);
+        setComentarioEditado('');
+        setIsOpenEditar(false);
+        axios.get(Global.url + 'addComentario/' + practicas[selectedPracticaIndex]._id);
+        getPracticas();
+        setIsOpenEditar(false);
+        window.location.reload();
+     })
+     .catch((error) => {
+        console.error('Error al guardar el comentario en el backend:', error);
+      });
+       return alert("Comentario editado con exito");
+    
+}
+
+
+>>>>>>> Stashed changes
 
 
 
@@ -229,6 +304,7 @@ export const ListarPractica = () => {
                   practicas[selectedPracticaIndex].comentarios.map((comentario, index) => (
                     <Tr key={index}>
                       {console.log("index practicaA: " + selectedPracticaIndex)}
+<<<<<<< Updated upstream
                       
                      
                   
@@ -242,6 +318,13 @@ export const ListarPractica = () => {
 
                        
                        
+=======
+
+                      
+                      {
+                        existeComentario?<Td> {comentario[comentarioIndex].contenido}</Td> : <Td> No hay comentarios existentes </Td>
+                      }
+>>>>>>> Stashed changes
                  
                     </Tr>
                   ))}
@@ -250,9 +333,18 @@ export const ListarPractica = () => {
             </Table>
           </ModalBody>
           <ModalFooter>
+<<<<<<< Updated upstream
             <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} isDisabled={!existeComentario}>
             
 
+=======
+  
+            <Button   colorScheme="yellow" mr={3} leftIcon={<EditIcon />} 
+            onClick={() => {setComentarioEditado(practicas[selectedPracticaIndex].comentarios[0][comentarioIndex].contenido),setIsOpenComentarios(false),setIsOpenEditar(true)}}>
+            </Button>
+
+            <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} isDisabled={!existeComentario}>
+>>>>>>> Stashed changes
             </Button>
             <Button colorScheme="blue" mr={3} onClick={handlePrevComentario} isDisabled={comentarioIndex === 0}>
               <ChevronLeftIcon />
@@ -271,6 +363,34 @@ export const ListarPractica = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+<<<<<<< Updated upstream
+=======
+
+      <Modal isOpen={isOpenEditar} onClose={() => setIsOpenEditar(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Editar comentario</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+
+           
+         <Textarea value={comentarioEditado} onChange={(e) => setComentarioEditado(e.target.value)} placeholder= {comentarioEditado ? '':"Escribe tu comentario aquí..." }/>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={() => {setIsOpenEditar(false), setIsOpenComentarios(true)}}>Cancelar</Button>
+
+            <Button colorScheme="green" onClick={handleComentarioEditado}>Enviar</Button>
+      </ModalFooter>
+
+        </ModalContent>
+      </Modal>
+   
+
+
+
+      
+>>>>>>> Stashed changes
     </>
   )
 }
