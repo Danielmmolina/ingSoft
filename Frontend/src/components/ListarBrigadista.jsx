@@ -1,33 +1,57 @@
-import { Container, Heading, Input, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { Button, Container, Heading, Input, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
 import { Global } from '../helpers/Global'
 import { useEffect, useState } from "react"
+import { ActualizarBrigadista } from "./ActualizarBrigadista";
+import { Link, Navigate } from "react-router-dom";
+import { AlertaSuccess } from "./AlertaSuccess";
 
 export const ListarBrigadista = () => {
     const [brigadistas, setBrigadistas] = useState([]);
-    const [emailInput, setEmailInput] = useState([]);
-
+    const [newBrigadista, setNewBrigadista] = useState([]);
+    const [emailInput, setEmailInput] = useState('');
+    const [actualizar, setActualizar] = useState(false);
+    const [cargando, setCargando] = useState(false);
     useEffect(() => {
         getBrigadistas();
     }, [])
-
     useEffect(() => {
-        getBrigadistas();
-    }, [brigadistas])
-    
+        conseguirArray(emailInput)
+        
+    }, [emailInput])
+    const conseguirArray = async (emailInput) => {
+        let emailsArray = await (brigadistas.filter(brigadista => brigadista.email.startsWith(emailInput)));
+
+        const setear = async (emailsArray) => {
+            await setBrigadistas(emailsArray);
+        }
+
+        setear(emailsArray);
+
+
+    }
+    const limpiar = () => {
+        location.reload();
+    }
+    // useEffect(() => {
+    //     getBrigadistas(emailInput);
+
+    // }, [emailInput])
+
     const getBrigadistas = async () => {
-        const request = await fetch(Global.url + 'getBrigadistas', {
+        const request = await fetch(Global.url + 'getBrigadistas/', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"
             }
         })
         const data = await request.json();
+
         if (data.status === 'success') {
             setBrigadistas(data.brigadistas);
         }
     }
     const changed = (e) => {
-        console.log(e.target.value);
+        setEmailInput(e.target.value);
         // let brigadistasEmail = brigadistas.map(brigadista => brigadista.email);
         // setBrigadistas();
         // console.log('emails',brigadistasEmail);
@@ -37,9 +61,43 @@ export const ListarBrigadista = () => {
         //     }
         // })
     }
+
+    // const searchEmail = (email) => {
+    //     console.log(email);
+    //     const emailsArray = brigadistas.filter(brigadista => brigadista.email.startsWith(email));
+    //     setBrigadistas(emailsArray);
+    // }
+    const eliminarBrigadista = async (brigadista) => {
+        setCargando(true);
+        const request = await fetch(Global.url + 'deleteBrigadista/' + brigadista, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'aplication/json'
+            }
+        });
+        setTimeout(() => {
+            setCargando(false);
+            location.reload();
+        }, 1000);
+        const data = await request.json();
+
+    }
+    const actualizarBrigadista = async (brigadista) => {
+        setNewBrigadista(brigadista)
+        setActualizar(true);
+
+        //     const request = await fetch(Global.url+'updateBrigadista/'+brigadista,{
+        //         method: 'PUT',
+        //         body: 
+        //         headers: {
+        //             'Content-Type': 'aplication/json'
+        //         }
+        //     })
+    }
+
     return (
         <>
-            <Heading as={'h1'} mt={'300'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
+            <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
             <Container maxW='container.xl'>
                 <Input
                     width={'30%'}
@@ -48,7 +106,8 @@ export const ListarBrigadista = () => {
                     placeholder='Buscar por email...'
                     _placeholder={{ color: 'inherit' }} onChange={changed}
                 />
-                <TableContainer pb={'100'}>
+                <Button onClick={limpiar} m={3} >Limpiar</Button>
+                <TableContainer >
                     <Table variant='striped' colorScheme='teal'>
                         {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
                         <Thead>
@@ -57,6 +116,8 @@ export const ListarBrigadista = () => {
                                 <Th>Rut</Th>
                                 <Th>Teléfono</Th>
                                 <Th>Email</Th>
+                                <Th></Th>
+                                <Th></Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -67,16 +128,21 @@ export const ListarBrigadista = () => {
                                         <Td>{brigadista.rut}</Td>
                                         <Td>{brigadista.telefono}</Td>
                                         <Td>{brigadista.email}</Td>
+                                        <Td><Button colorScheme='green' onClick={() => actualizarBrigadista(brigadista)}><Link to={'/inicio/actualizarBrigadista/' + brigadista._id} >Actualizar</Link></Button></Td>
+                                        <Td><Button colorScheme='red' onClick={() => eliminarBrigadista(brigadista._id)}>Eliminar</Button></Td>
+
                                     </Tr>
                                 )
                             })}
 
-
                         </Tbody>
+
                     </Table>
                 </TableContainer>
+                {cargando ? <AlertaSuccess /> : ''}
             </Container>
-
+            {actualizar ? <ActualizarBrigadista newBrigadista={newBrigadista} /> : ''}
         </>
     )
+
 }

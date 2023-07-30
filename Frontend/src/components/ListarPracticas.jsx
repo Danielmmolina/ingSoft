@@ -1,9 +1,5 @@
 import { Container, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Button, Textarea, Modal, ModalBody, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter } from "@chakra-ui/react";
-<<<<<<< Updated upstream
-import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon} from '@chakra-ui/icons';
-=======
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, EditIcon} from '@chakra-ui/icons';
->>>>>>> Stashed changes
 import { Global } from '../helpers/Global';
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -18,11 +14,8 @@ export const ListarPractica = () => {
   const [siguiente, setSiguiente] = useState(true);
   const [largoComentarios, setLargoComentarios]=useState(null);
   const [existeComentario, setExisteComentario]= useState(false);
-<<<<<<< Updated upstream
-=======
   const [isOpenEditar, setIsOpenEditar] = useState(false);
   const [comentarioEditado, setComentarioEditado] = useState('');
->>>>>>> Stashed changes
    
   useEffect(() => {
     getPracticas();
@@ -52,10 +45,7 @@ export const ListarPractica = () => {
     setIsOpen(true);
   };
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
   const handleSubmitComentario = () => {
    
   
@@ -161,13 +151,6 @@ export const ListarPractica = () => {
 
   const handleDeleteComentario = () => {
 
-<<<<<<< Updated upstream
-
-    
-   
-  }
-
-=======
  const  comentarioDelete = practicas[selectedPracticaIndex].comentarios[0][comentarioIndex]._id;
 
  console.log("linea 153: ", comentarioDelete);
@@ -227,7 +210,6 @@ const handleComentarioEditado = () => {
 }
 
 
->>>>>>> Stashed changes
 
 
 
@@ -304,27 +286,11 @@ const handleComentarioEditado = () => {
                   practicas[selectedPracticaIndex].comentarios.map((comentario, index) => (
                     <Tr key={index}>
                       {console.log("index practicaA: " + selectedPracticaIndex)}
-<<<<<<< Updated upstream
-                      
-                     
-                  
-                      
-                      {
-                        
-                        existeComentario?<Td> {comentario[comentarioIndex].contenido}</Td> : <Td> No hay comentarios existentes </Td>
-                      }
-                       
-
-
-                       
-                       
-=======
 
                       
                       {
                         existeComentario?<Td> {comentario[comentarioIndex].contenido}</Td> : <Td> No hay comentarios existentes </Td>
                       }
->>>>>>> Stashed changes
                  
                     </Tr>
                   ))}
@@ -333,18 +299,12 @@ const handleComentarioEditado = () => {
             </Table>
           </ModalBody>
           <ModalFooter>
-<<<<<<< Updated upstream
-            <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} isDisabled={!existeComentario}>
-            
-
-=======
   
             <Button   colorScheme="yellow" mr={3} leftIcon={<EditIcon />} 
             onClick={() => {setComentarioEditado(practicas[selectedPracticaIndex].comentarios[0][comentarioIndex].contenido),setIsOpenComentarios(false),setIsOpenEditar(true)}}>
             </Button>
 
             <Button colorScheme="red"  mr={3} leftIcon={<DeleteIcon />} onClick={handleDeleteComentario} isDisabled={!existeComentario}>
->>>>>>> Stashed changes
             </Button>
             <Button colorScheme="blue" mr={3} onClick={handlePrevComentario} isDisabled={comentarioIndex === 0}>
               <ChevronLeftIcon />
@@ -363,8 +323,6 @@ const handleComentarioEditado = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-<<<<<<< Updated upstream
-=======
 
       <Modal isOpen={isOpenEditar} onClose={() => setIsOpenEditar(false)}>
         <ModalOverlay />
@@ -386,12 +344,7 @@ const handleComentarioEditado = () => {
         </ModalContent>
       </Modal>
    
-
-
-
       
->>>>>>> Stashed changes
     </>
   )
 }
-

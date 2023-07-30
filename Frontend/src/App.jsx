@@ -1,7 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { ColorMode } from './components/ColorMode'
-import { ListarPractica } from './components/ListarPracticas'
-
+import { Routing } from '../router/Routing'
 
 function App() {
 
@@ -9,9 +8,7 @@ function App() {
   return (
     <ChakraProvider>
       <ColorMode/>
-       
-        <ListarPractica/>
-        
+        <Routing/>
     </ChakraProvider>
   )
 }

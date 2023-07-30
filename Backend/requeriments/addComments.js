@@ -11,7 +11,6 @@ const addComentario = async (req, res) => {
         const comentarioPromise = new Promise ((resolve, reject) => {  //Se ocupa una promesa para obtener los comentarios que coincidan con el parametro
            
            
-            
             Comments.find({practica: {$eq: id}}, (err, comentarios) => {
 
                 
@@ -22,7 +21,7 @@ const addComentario = async (req, res) => {
 
                 const contenidoComentario = comentarios; //.map(comentario => comentario.contenido);   //En caso de que existan, se usa la funcion .map para obtener solo el contenido de los comentarios       
                 resolve(contenidoComentario);   //el contenido de los comentarios se guardará como Array en la variable "contenidoComentario", y ese se devolvera. 
-            });                          //cuando se ejecuta la funcion resolve quiere decir que la promesa se resolvió sin ningún error.
+            });                                 //cuando se ejecuta la funcion resolve quiere decir que la promesa se resolvió sin ningún error.
         });   
 
         const contenidos = await Promise.all([comentarioPromise]);  //Se espera a que la promesa se resuelva y los valores encontrados se le asigna a la variable contenidos. 

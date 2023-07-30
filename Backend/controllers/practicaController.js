@@ -63,7 +63,7 @@ const createPractica = (req, res) => {
                     if (err) {
                         return res.status(400).send({ message: "Error al crear la practica",err })
                     }
-                    return res.status(201).send({status:'success',practica})
+                    return res.status(201).send(practica)
                 });
             }
         })
@@ -81,10 +81,7 @@ const getPractica = (req, res) => {
         const fecha = practica.map(fechas=>fechas.fecha);
         console.log(fecha);
     console.log(fechaActual);
-        return res.status(201).send({
-            status: "success", 
-            practica
-        });
+        return res.status(201).send({status: "success", practica});
     })
 
 }
