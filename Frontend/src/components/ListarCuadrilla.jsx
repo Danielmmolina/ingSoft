@@ -11,7 +11,6 @@ export const ListarCuadrilla = () => {
   const [isOpenId, setIsOpenId] = useState(false);
 
   //AQUI OBTENGO LAS CUADRILLAS
-  useEffect(() => {
     const obtenerCuadrillas = async () => {
       try {
         const response = await fetch(Global.url + "getCuadrilla", {
@@ -27,8 +26,24 @@ export const ListarCuadrilla = () => {
       }
     };
 
+    useEffect(() => {
     obtenerCuadrillas();
   }, []);
+
+  const eliminarCuadrilla = async (id) => {
+    try {
+      const response = await fetch(Global.url + "deleteCuadrilla/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const datadelete = await response.json();
+      obtenerCuadrillas(datadelete);       // Actualizar la lista de cuadrillas después de eliminar una
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   //AQUI OBTENGO LOS BRIGADISTAS
   const open = async () => {
@@ -105,6 +120,8 @@ export const ListarCuadrilla = () => {
                 <Th>Brigadistas</Th>
                 <Th> </Th>                  {/* DEJE ESTE ESPACIO PARA EL BOTÓN */}
                 <Th>Sector</Th>
+                <Th> </Th>
+        
               </Tr>
             </Thead>
             <Tbody>
@@ -115,6 +132,7 @@ export const ListarCuadrilla = () => {
                     <Td>{cuadrilla.brigadistas.map((brigadista) => (<li key={brigadista.nombre}> {brigadista.nombre} {brigadista.apellido}</li>))}</Td>
                     <Td><Button onClick={open}>Añadir brigadista</Button></Td>
                     <Td>{cuadrilla.sector}</Td>
+                    <Td><Button colorScheme='red' onClick={() => eliminarCuadrilla(cuadrilla._id)}>Eliminar</Button></Td>
                   </Tr>
                 );
               })}
@@ -136,9 +154,8 @@ export const ListarCuadrilla = () => {
             {brigadistas.map((brigadista) => (
             <ListItem key={brigadista.nombre}>
              <Checkbox value={brigadista.nombre}>{brigadista.nombre} {brigadista.apellido}</Checkbox>
-             
                   </ListItem>
-               ))}
+             ))}
                 </List>
               </CheckboxGroup>
           </ModalBody>
