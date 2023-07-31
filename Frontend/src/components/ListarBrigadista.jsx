@@ -107,7 +107,7 @@ export const ListarBrigadista = () => {
             <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
             <Container maxW='container.xl'>
             <Container maxW='container.xl' display='flex' justifyContent='flex-end'>
-           <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar</Button>
+           <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar CSV</Button>
           </Container>
                 <Input
                     width={'30%'}

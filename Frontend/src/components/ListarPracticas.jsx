@@ -155,6 +155,13 @@ export const ListarPractica = () => {
 
   };
 
+  const handleExport = () => {
+    let url;
+    url = "http://localhost:3001/api/exportPracticas";
+
+    window.location.href = url;
+  };
+
   const handleDeleteComentario = () => {
 
     const comentarioDelete = practicas[selectedPracticaIndex].comentarios[0][comentarioIndex]._id;
@@ -274,6 +281,10 @@ export const ListarPractica = () => {
     <>
       <Heading as={'h1'} mt={'300'} fontSize='2em' textAlign='center' pb={'10'}>Practicas realizadas</Heading>
       <Container maxW='container.2xl'>
+
+      <Container maxW='container.xl' display='flex' justifyContent='flex-end'>
+           <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar CSV</Button>
+          </Container>
 
         <TableContainer pb={'100'}>
           <Table variant='striped' colorScheme='teal'>
