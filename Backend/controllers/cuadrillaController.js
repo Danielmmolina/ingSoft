@@ -1,5 +1,6 @@
 const Cuadrilla = require('../models/cuadrilla');
 const Brigadista = require('../models/brigadista');
+const brigadista = require('../models/brigadista');
 
 // Función para crear una cuadrilla
 
@@ -68,20 +69,42 @@ const getCuadrilla = async (req, res) => {
   }
 }
 
+const getCuadrillaID = (req, res) => {
+  const { id } = req.params;
+  Cuadrilla.findById(id, (err, cuadrillas) => {
+    if (err) {
+      return res.status(400).send("ERROR: no se ha econtrado la cuadrilla");
+    }
+    if (!cuadrillas) {
+      return res.status(404).send("ERROR: no se ha encontrado la cuadrilla");
+    }
+    return res.status(200).send({
+      status: "success",
+      cuadrillas,
+    });
+  });
+};
+
 // Función para actualizar una cuadrilla
 
 const updateCuadrilla = async (req, res) => {
   try {
     const { id } = req.params;
-    const { brigadistas: brigadistasRut } = req.body;
+    const { brigadistas: brigadistasRut, nombre, sector } = req.body;
 
     // Verificar si los brigadistas están en la base de datos y obtener sus IDs
     const brigadistas = [];
     for (const rut of brigadistasRut) {
-      const brigadista = await Brigadista.findOne({ rut: rut });
+      const brigadista = await Brigadista.findOne({ rut: rut  });
       if (!brigadista) {
         // El brigadista no está en la base de datos
         return res.status(400).send(`ERROR: El brigadista con RUT ${rut} no existe en la base de datos`);
+      }
+      // Valida si se encuentra en la cuadrilla el rut
+      const cuadrilla = await Cuadrilla.findById(id);
+      if (cuadrilla.brigadistas.includes(brigadista._id)) {
+        // Si el brigadista está, retornará un error
+        return res.status(400).send({status:'error' , message:'ERROR: No se puede volver a añadir un brigadista.'});
       }
       brigadistas.push(brigadista._id);
     }
@@ -89,12 +112,13 @@ const updateCuadrilla = async (req, res) => {
     /* Se actualiza una cuadrilla existente en la base de datos añadiendo nuevos brigadistas, si se actualiza correctamente nos
      devolverá la cuadrilla actualizada correctamente. */
 
-    const cuadrilla = await Cuadrilla.findByIdAndUpdate(id, { $push: { brigadistas: { $each: brigadistas } } }, { new: true });
-    return res.status(200).send(cuadrilla);
+    const cuadrilla = await Cuadrilla.findByIdAndUpdate(id, { $push: { brigadistas: { $each: brigadistas } }, nombre, sector }, { new: true });
+    return res.status(200).send({status:'success', message:'Actualizado correctamente' , cuadrilla});
   } catch (err) {
-    return res.status(400).send({ message: "Error al actualizar cuadrilla" });
+    return res.status(400).send(err);
   }
 }
+
 
 // Función para eliminar una cuadrilla
 
@@ -119,5 +143,6 @@ module.exports = {
   createCuadrilla,
   getCuadrilla,
   deleteCuadrilla,
-  updateCuadrilla
+  updateCuadrilla,
+  getCuadrillaID
 }
