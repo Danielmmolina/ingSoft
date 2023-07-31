@@ -94,6 +94,7 @@ const updateCuadrilla = async (req, res) => {
 
     // Verificar si los brigadistas están en la base de datos y obtener sus IDs
     const brigadistas = [];
+    if (brigadistasRut)
     for (const rut of brigadistasRut) {
       const brigadista = await Brigadista.findOne({ rut: rut  });
       if (!brigadista) {
