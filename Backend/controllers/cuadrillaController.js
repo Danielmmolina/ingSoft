@@ -9,19 +9,19 @@ const createCuadrilla = async (req, res) => {
 
   // Validar el nombre de la cuadrilla
   if (!nombre || nombre.length < 3) {
-    return res.status(400).send('ERROR: El nombre de la cuadrilla debe tener al menos 3 caracteres');
+    return res.status(400).send({status:"error", message:'ERROR: El nombre de la cuadrilla debe tener al menos 3 caracteres'});
   }
 
   // Validar que el nombre de la cuadrilla no contenga caracteres especiales
   const specialCharsRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
   if (specialCharsRegex.test(nombre)) {
-    return res.status(400).send('ERROR: El nombre de la cuadrilla no puede contener caracteres especiales');
+    return res.status(400).send({status:"error", message:'ERROR: El nombre de la cuadrilla no puede contener caracteres especiales'});
   }
 
   // Verificar si ya existe una cuadrilla con el mismo nombre
   const existingCuadrilla = await Cuadrilla.findOne({ nombre: nombre });
   if (existingCuadrilla) {
-    return res.status(400).send(`ERROR: Ya existe una cuadrilla con el nombre ${nombre}`);
+    return res.status(400).send({status:"error", message:`ERROR: Ya existe una cuadrilla con el nombre ${nombre}`});
   }
 
   // Validar el número de brigadistas
@@ -42,10 +42,10 @@ const createCuadrilla = async (req, res) => {
 
   // Validar el sector
   if (!sector || sector.length < 3 || sector.length > 32) {
-    return res.status(400).send('ERROR: El sector debe tener entre 3 y 32 caracteres');
+    return res.status(400).send({status:"error", message:'ERROR: El sector debe tener entre 3 y 32 caracteres'});
   }
   if (specialCharsRegex.test(sector)) {
-    return res.status(400).send('ERROR: El sector no puede contener caraceteres especiales');
+    return res.status(400).send({status:"error", message:'ERROR: El sector no puede contener caraceteres especiales'});
   }
 
   // Los brigadistas están en la base de datos, continuar con la creación de la cuadrilla
@@ -73,10 +73,10 @@ const getCuadrillaID = (req, res) => {
   const { id } = req.params;
   Cuadrilla.findById(id, (err, cuadrillas) => {
     if (err) {
-      return res.status(400).send("ERROR: no se ha econtrado la cuadrilla");
+      return res.status(400).send({status:"error", message:"ERROR: no se ha econtrado la cuadrilla"});
     }
     if (!cuadrillas) {
-      return res.status(404).send("ERROR: no se ha encontrado la cuadrilla");
+      return res.status(404).send({status:"error", message:"ERROR: no se ha encontrado la cuadrilla"});
     }
     return res.status(200).send({
       status: "success",
