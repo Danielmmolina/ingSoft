@@ -34,7 +34,6 @@ export const ActualizarCuadrilla = () => {
   const [brigadistaCuadrilla, setBrigadistaCuadrilla] = useState([]);
   const navigate = useNavigate();
 
-  // Función para obtener cuadrilla
   const getCuadrilla = async () => {
     const request = await fetch(Global.url + "getCuadrillaID/" + id, {
       method: "GET",
@@ -43,14 +42,14 @@ export const ActualizarCuadrilla = () => {
       },
     });
     const data = await request.json();
+    console.log(data);
     if (data.status === "success") {
-      setCuadrilla(data.cuadrillas);  //Se guardan los datos de cuadrillas si el status es success del backend.
+      setCuadrilla(data.cuadrillas);
       setBrigadistaCuadrilla(data.cuadrillas.brigadistas);
+      console.log("BRIGADISTAS EN LA CUADRILLA:", brigadistaCuadrilla);
     }
   };
 
-
-  // Función para enviar el formulario y updatear la información de la cuadrilla en el servidor
   const sendForm = async (e) => {
     e.preventDefault();
     let updateCuadrilla = {
@@ -67,7 +66,9 @@ export const ActualizarCuadrilla = () => {
     const data = await request.json();
     if (data.status === "success") {
       setSaved("saved");
-      navigate("/ListarCuadrilla"); // Cuando está correcto el formulario redirijirá a ListarCuadrilla, de lo contrario nos mostrará el error que retorna el backend
+      console.log(data);
+      // Aquí redirigimos manualmente a ListarCuadrilla
+      navigate("/ListarCuadrilla");
     } else {
       let message = data.message;
       setMensaje(message);
@@ -75,7 +76,6 @@ export const ActualizarCuadrilla = () => {
     }
   };
 
-  //Esta función se utiliza para obtener la lista de brigadistas.
   const fetchBrigadistas = async () => {
     try {
       const response = await fetch(Global.url + "getBrigadistas", {
@@ -86,10 +86,11 @@ export const ActualizarCuadrilla = () => {
       });
       const data = await response.json();
       if (data.brigadistas) {
-        const filteredBrigadistas = data.brigadistas.filter( // Filtra los brigadistas que se encuentran en la cuadrilla actual
+        const filteredBrigadistas = data.brigadistas.filter(
           (brigadista) => !brigadistaCuadrilla.includes(brigadista._id)
         );
         setBrigadistas(filteredBrigadistas);
+        console.log("Brigadistas filtrados:", filteredBrigadistas);
       } else {
         console.log("Error");
       }
@@ -97,8 +98,7 @@ export const ActualizarCuadrilla = () => {
       console.error(error);
     }
   };
-
-  const handleBrigadistasSelection = (selectedBrigadistas) => { //Recibe como parámetro los ID seleccionados por el usuario
+  const handleBrigadistasSelection = (selectedBrigadistas) => {
     setBrigadistaCuadrilla(selectedBrigadistas);
   };
 
@@ -109,8 +109,6 @@ export const ActualizarCuadrilla = () => {
       </Heading>
       <Container maxW="container.sm">
         <form>
-
-          {/* Input nombre */}
           <FormControl mb="3" isRequired>
             <FormLabel>Nombre</FormLabel>
             <Input
@@ -121,7 +119,6 @@ export const ActualizarCuadrilla = () => {
             />
           </FormControl>
 
-          {/* Checkbox que contiene los brigadistas, se realiza un mapeado para mostrar los brigadistas */}
           <FormControl mb="3">
             <FormLabel>Brigadistas</FormLabel>
             <CheckboxGroup
@@ -139,13 +136,12 @@ export const ActualizarCuadrilla = () => {
                 borderRadius="8px"
                 padding="8px"
               >
-                {/* Se checkean los brigadistas que ya se encuentran en la cuadrilla*/}
                 <List>
                   {brigadistas.map((brigadista) => (
                     <ListItem key={brigadista._id}>
                       <Checkbox
                         value={brigadista._id}
-                        isChecked={brigadista.isChecked} 
+                        isChecked={brigadista.isChecked}
                       >
                         {brigadista.nombre} {brigadista.apellido}
                       </Checkbox>
@@ -159,7 +155,6 @@ export const ActualizarCuadrilla = () => {
             </CheckboxGroup>
           </FormControl>
 
-                    {/* Input sector */}
           <FormControl mb="3" isRequired>
             <FormLabel>Sector</FormLabel>
             <Input
@@ -179,7 +174,7 @@ export const ActualizarCuadrilla = () => {
             </Button>
           </Box>
         </form>
-        {saved === "error" ? <AlertaError mensaje={mensaje} /> : ""} {/* Mensaje de error */}
+        {saved === "error" ? <AlertaError mensaje={mensaje} /> : ""}
       </Container>
     </>
   );
