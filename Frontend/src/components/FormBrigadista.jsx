@@ -91,7 +91,7 @@ export const FormBrigadista = () => {
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel>Teléfono</FormLabel>
+          <FormLabel>Telefono</FormLabel>
           <NumberInput >
             <NumberInputField name="telefono" onChange={changed} />
           </NumberInput>

@@ -13,19 +13,12 @@ const addComentario = async (req, res) => {
            
             Comments.find({practica: {$eq: id}}, (err, comentarios) => {
 
-                const practicasID = comentarios.map(comentario => comentario.practica);
-
-                if(!practicasID.includes(id)){  //En caso de que la ID no se encuentre registrada en ningun comentario, se devolverá un mensaje diciendo que la practica no tiene comentarios realizados
-
-                    return res.status(404).send("No existe ningun comentario para la práctica ingresada");
-                }
-            
                 if(err) {   
                     reject(err);        //En caso de algun error se ejecutará esta funcion de reject, que significa que se rechaza la promesa.
                 }
 
-                const contenidoComentario = comentarios.map(comentario => comentario.contenido);   //En caso de que existan, se usa la funcion .map para obtener solo el contenido de los comentarios       
-                resolve(contenidoComentario);   //el contenido de los comentarios se guardará como Array en la variable "contenidoComentario", y ese se devolvera. 
+                const contenidoComentario = comentarios; //.map(comentario => comentario.contenido);   //En caso de que existan, se usa la funcion .map para obtener solo el contenido de los comentarios       
+                resolve(contenidoComentario);  //el contenido de los comentarios se guardará como Array en la variable "contenidoComentario", y ese se devolvera. 
             });                                 //cuando se ejecuta la funcion resolve quiere decir que la promesa se resolvió sin ningún error.
         });   
 

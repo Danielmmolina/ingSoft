@@ -81,7 +81,7 @@ const getPractica = (req, res) => {
         const fecha = practica.map(fechas=>fechas.fecha);
         console.log(fecha);
     console.log(fechaActual);
-        return res.status(201).send(practica);
+        return res.status(201).send({status: "success", practica});
     })
 
 }
@@ -112,7 +112,7 @@ const updatePractica = (req, res) => {
         if (!practica) {
             return res.status(404).ssend('ERROR: practica  no encontrada')
         }
-        return res.status(201).send(practica)
+        return res.status(201).send({status:"success",practica})
     })
 }
 
