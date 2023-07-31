@@ -12,5 +12,7 @@ api.put('/updateCuadrilla/:id', cuadrillaController.updateCuadrilla);
 api.delete('/deleteCuadrilla/:id', cuadrillaController.deleteCuadrilla);
 api.get('/exportCuadrilla', exportController.exportCuadrilla);
 api.get('/exportCuadrilla/:id', exportController.exportCuadrillabyID);
+api.put('/removeBrigadista/:id', cuadrillaController.removeBrigadistaFromCuadrilla);
+
 
 module.exports = api;

@@ -11,6 +11,7 @@ import { ListarCuadrilla } from '../src/components/ListarCuadrilla';
 import { ActualizarCuadrilla } from '../src/components/ActualizarCuadrilla';
 import { FormCuadrilla } from '../src/components/FormCuadrilla';
 import { Exportar } from '../src/components/Exportar';
+import {EliminarBrigadista} from '../src/components/EliminarBrigadista';
 export const Routing = () => {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ export const Routing = () => {
           <Route path='FormCuadrilla' element={<FormCuadrilla />} />
           <Route path='ActualizarCuadrilla/:id' element={<ActualizarCuadrilla />} />
           <Route path='Exportar' element={<Exportar />} />
+          <Route path='EliminarBrigadista/:id' element={<EliminarBrigadista />} />
         </Route>
 
         <Route path='*' element={

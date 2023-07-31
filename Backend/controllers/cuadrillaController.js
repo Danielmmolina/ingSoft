@@ -127,6 +127,22 @@ const updateCuadrilla = async (req, res) => {
   }
 }
 
+const removeBrigadistaFromCuadrilla = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { brigadistaId } = req.body;
+
+    // Eliminar el brigadista del arreglo de brigadistas en el documento de cuadrilla
+    const cuadrilla = await Cuadrilla.findByIdAndUpdate(
+      id,
+      { $pull: { brigadistas: brigadistaId } },
+      { new: true }
+    );
+    return res.status(200).send({ status: 'success', message: 'Brigadista eliminado correctamente', cuadrilla });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+}
 
 // Función para eliminar una cuadrilla
 
@@ -152,5 +168,6 @@ module.exports = {
   getCuadrilla,
   deleteCuadrilla,
   updateCuadrilla,
-  getCuadrillaID
+  getCuadrillaID,
+  removeBrigadistaFromCuadrilla
 }
