@@ -82,6 +82,13 @@ export const ListarBrigadista = () => {
         const data = await request.json();
 
     }
+
+    const handleExport = () => {
+        let url;
+        url = "http://localhost:3001/api/exportBrigadistas";
+    
+        window.location.href = url;
+      };
     const actualizarBrigadista = async (brigadista) => {
         setNewBrigadista(brigadista)
         setActualizar(true);
@@ -99,6 +106,9 @@ export const ListarBrigadista = () => {
         <>
             <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
             <Container maxW='container.xl'>
+            <Container maxW='container.xl' display='flex' justifyContent='flex-end'>
+           <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar</Button>
+          </Container>
                 <Input
                     width={'30%'}
                     my={'10'}
