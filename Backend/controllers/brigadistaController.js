@@ -245,6 +245,92 @@ const deleteBrigadista = (req, res) => {
 const updateBrigadista = (req, res) => {
   const { id } = req.params;
   brigadista.findByIdAndUpdate(id, req.body, (err, brigadistas) => {
+    if (
+      brigadistas.nombre === undefined ||
+      brigadistas.apellido === undefined ||
+      brigadistas.rut === undefined ||
+      brigadistas.email === undefined ||
+      brigadistas.telefono === undefined ||
+      brigadistas.edad === undefined
+    ) {
+      return res.status(400).send({
+        status: "error",
+        message: "verifique que todos los campos esten completos",
+      });
+    }
+    if (brigadistas.rut !== undefined) {
+      var indexRut = brigadistas.rut.indexOf("-");
+      console.log(indexRut);
+    } else {
+      return res.status(400).send({
+        status: "error",
+        message: "Ingrese un rut (ej: 12345673-8)",
+      });
+    }
+  
+    if (brigadistas.rut[indexRut] !== "-") {
+      return res.status(400).send({
+        status: "error",
+        message:
+          "No se encuentra el guion, ingrese un rut valido (ej: 12345673-8)",
+      });
+    }
+    if (indexRut !== 8 && indexRut !== 7) {
+      return res.status(400).send({
+        status: "error",
+        message: "Ingrese un rut valido (ej: 12345673-8)",
+      });
+    }
+    for (let i = 0; i < indexRut; i++) {
+      if (brigadistas.rut[i] >= 0 && brigadistas.rut[i] < 10) {
+        continue;
+      } else {
+        return res.status(400).send({
+          status: "error",
+          message: "Ingrese un rut valido (ej: 12345673-8)",
+        });
+      }
+    }
+  
+    if (!((brigadistas.rut[indexRut + 1] > 0 && brigadistas.rut[indexRut + 1] < 10) || (brigadistas.rut[indexRut + 1] === "k"))) {
+      return res.status(400).send({
+        status: "error",
+        message:
+          "El digito verificar es invalido, ingrese un rut valido (ej: 1234567-8)",
+      });
+    }
+  
+    if (brigadistas.email === undefined) {
+      return res.status(400).send({
+        status: "error",
+        message: "Ingrese un email",
+      });
+    }
+    if (!brigadistas.email.endsWith("@gmail.com")) {
+      return res.status(400).send({
+        status: "error",
+        message: "Ingrese un dominio valido en el campo email",
+      });
+    }
+    if (brigadistas.telefono === undefined) {
+      return res.status(400).send({
+        status: "error",
+        message: "Ingrese un numero te telefono (ej: 952345678)",
+      });
+    }
+    if (brigadistas.telefono.toString().length !== 9) {
+      return res.status(400).send({
+        status: "error",
+        message: "Ingrese un numero te telefono valido (ej: 952345678)",
+      });
+    }
+    if (brigadistas.edad < 18) {
+      return res.status(400).send({
+        status: "error",
+        message: "El brigadista debe ser mayor a 18 años",
+      });
+    }
+  
     if (err) {
       return res.status(400).send("ERROR: no se pudo obtener al brigadista");
     }

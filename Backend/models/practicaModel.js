@@ -6,7 +6,6 @@ const Practica = mongoose.model('Practica', {
         minlength: 3,
         require: true
     },
-
     descripcion: {
         type: String,
         minlength: 20,
@@ -18,26 +17,22 @@ const Practica = mongoose.model('Practica', {
         type: Date,
         require: true,
     },
-
     lugar: {
         type: String,
         minlength: 3,
         maxlength: 50,
         require: true
     },
-
     herramientasEquipo: {
         type: String,
         minlength: 6,
         maxlength: 100,
         require: true
     },
-
     cuadrilla:{
         type: mongoose.Schema.ObjectId,
         ref:'Cuadrilla'
       },
-
     comentarios: {
         type: Array,
         default: []
