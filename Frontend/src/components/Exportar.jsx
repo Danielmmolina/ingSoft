@@ -45,7 +45,7 @@ export const Exportar = () => {
       <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'2'}>Exportar CSV</Heading>
       <img src={CsvIcon} alt="CSV Icon" width={48} height={48} />
         <Text fontSize="xl" textAlign="center">
-          Seleccion el archivo que exportará como CSV y espere a que se inicie la descarga.
+          Seleccione el archivo que exportará como CSV y espere a que se inicie la descarga.
         </Text>
         
         <Select
