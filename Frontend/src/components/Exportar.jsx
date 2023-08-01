@@ -1,6 +1,7 @@
 import * as React from "react";
-import { VStack, Select, Container, Button, Heading } from "@chakra-ui/react";
+import { VStack, Select, Container, Button, Heading, Text } from "@chakra-ui/react";
 import { Global } from '../helpers/Global'
+import CsvIcon from "../icons/file-csv-solid.svg";
 
 export const Exportar = () => {
     const [selectedValue, setSelectedValue] = React.useState("");
@@ -41,7 +42,12 @@ export const Exportar = () => {
     return (
     <Container maxW='container.sm'>
       <VStack spacing={3}>
-      <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'10'}>Exportar CSV</Heading>
+      <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'2'}>Exportar CSV</Heading>
+      <img src={CsvIcon} alt="CSV Icon" width={48} height={48} />
+        <Text fontSize="xl" textAlign="center">
+          Seleccion el archivo que exportará como CSV y espere a que se inicie la descarga.
+        </Text>
+        
         <Select
           placeholder="Seleccione una opción"
           onChange={handleOptionChange}
