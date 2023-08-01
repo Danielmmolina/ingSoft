@@ -85,7 +85,7 @@ export const ListarBrigadista = () => {
 
     const handleExport = () => {
         let url;
-        url = "http://localhost:3001/api/exportBrigadistas";
+        url = "http://146.83.198.35:1050/api/exportBrigadistas";
     
         window.location.href = url;
       };

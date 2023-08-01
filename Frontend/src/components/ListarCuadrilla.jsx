@@ -65,7 +65,7 @@ export const ListarCuadrilla = () => {
   //EXPORTAR LISTADO DE CUADRILLAS
   const handleExport = () => {
     let url;
-    url = "http://localhost:3001/api/exportCuadrilla";
+    url = "http://146.83.198.35:1050/api/exportCuadrilla";
 
     window.location.href = url;
   };
@@ -73,7 +73,7 @@ export const ListarCuadrilla = () => {
   //EXPORTAR LA CUADRILLA POR NOMBRE
   const handleExportID = () => {
     let url;
-    url = `http://localhost:3001/api/exportCuadrilla/${selectedId}`;
+    url = `http://146.83.198.35:1050/api/exportCuadrilla/${selectedId}`;
 
     window.location.href = url;
   };

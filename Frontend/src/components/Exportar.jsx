@@ -27,13 +27,13 @@ export const Exportar = () => {
     const handleExport = () => {
         let url;
         if (selectedValue === "cuadrilla") {
-          url = `http://localhost:3001/api/exportCuadrilla/${selectedId}`;
+          url = `http://146.83.198.35:1050/api/exportCuadrilla/${selectedId}`;
         } else if (selectedValue === "cuadrillas") {
-          url = "http://localhost:3001/api/exportCuadrilla";
+          url = "http://146.83.198.35:1050/api/exportCuadrilla";
         } else if (selectedValue === "brigadistas") {
-          url = "http://localhost:3001/api/exportBrigadistas";
+          url = "http://146.83.198.35:1050/api/exportBrigadistas";
         } else if (selectedValue === "practicas") {
-          url = "http://localhost:3001/api/exportPracticas";
+          url = "http://146.83.198.35:1050/api/exportPracticas";
         }
     
         window.location.href = url;

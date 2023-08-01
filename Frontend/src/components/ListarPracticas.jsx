@@ -157,7 +157,7 @@ export const ListarPractica = () => {
 
   const handleExport = () => {
     let url;
-    url = "http://localhost:3001/api/exportPracticas";
+    url = "http://146.83.198.35:1050/api/exportPracticas";
 
     window.location.href = url;
   };
