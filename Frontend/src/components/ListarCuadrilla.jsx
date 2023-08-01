@@ -82,10 +82,6 @@ export const ListarCuadrilla = () => {
     window.location.href = `/inicio/ActualizarCuadrilla/${id}`;
   };
 
-  const EliminarBrigadistas = (id) => {
-    window.location.href = `/inicio/EliminarBrigadista/${id}`;
-  };
-
   //ESTADO DE LA SELECCION
   const handleIdChange = (event) => {
     setSelectedId(event.target.value);
@@ -142,7 +138,6 @@ export const ListarCuadrilla = () => {
                 <Th>Sector</Th>
                 <Th> </Th> {/* DEJE ESTE ESPACIO PARA EL BOTÓN */}
                 <Th> </Th>
-                <Th> </Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -165,14 +160,6 @@ export const ListarCuadrilla = () => {
                         onClick={() => actualizarCuadrilla(cuadrilla._id)}
                       >
                         Actualizar
-                      </Button>
-                    </Td>
-                    <Td>
-                      <Button
-                        colorScheme="red"
-                        onClick={() => EliminarBrigadistas(cuadrilla._id)}
-                      >
-                        Eliminar brigadistas
                       </Button>
                     </Td>
                     <Td>
