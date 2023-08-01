@@ -283,7 +283,10 @@ export const ListarPractica = () => {
       <Container maxW='container.2xl'>
 
       <Container maxW='container.xl' display='flex' justifyContent='flex-end'>
-           <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar CSV</Button>
+      <Button colorScheme="teal">
+              <Link to={"/inicio/crearPractica"}>Crear practica</Link>
+            </Button>
+           <Button colorScheme="teal" variant="outline" onClick={handleExport} ml={2}>Exportar CSV</Button>
           </Container>
 
         <TableContainer pb={'100'}>

@@ -107,7 +107,10 @@ export const ListarBrigadista = () => {
             <Heading as={'h1'} fontSize='2em' textAlign='center' pb={'10'}>Brigadistas registrados</Heading>
             <Container maxW='container.xl'>
             <Container maxW='container.xl' display='flex' justifyContent='flex-end'>
-           <Button colorScheme="teal" variant="outline" onClick={handleExport}>Exportar CSV</Button>
+            <Button colorScheme="teal">
+              <Link to={"/inicio/registrarBrigadista"}>Crear brigadista</Link>
+            </Button>
+           <Button colorScheme="teal" variant="outline" onClick={handleExport} ml={2}>Exportar CSV</Button>
           </Container>
                 <Input
                     width={'30%'}
