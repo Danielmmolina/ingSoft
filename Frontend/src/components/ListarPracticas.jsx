@@ -279,7 +279,7 @@ export const ListarPractica = () => {
 
   return (
     <>
-      <Heading as={'h1'} mt={'300'} fontSize='2em' textAlign='center' pb={'10'}>Practicas realizadas</Heading>
+      <Heading as={'h1'}  fontSize='2em' textAlign='center' pb={'10'}>Practicas realizadas</Heading>
       <Container maxW='container.2xl'>
 
       <Container maxW='container.xl' display='flex' justifyContent='flex-end'>

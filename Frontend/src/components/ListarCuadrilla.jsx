@@ -89,7 +89,7 @@ export const ListarCuadrilla = () => {
 
   return (
     <>
-      <Heading as={"h1"} mt={"50"} fontSize="2em" textAlign="center" pb={"10"}>
+      <Heading as={"h1"}  fontSize="2em" textAlign="center" pb={"10"}>
         Cuadrillas
       </Heading>
       <Container maxW="container.xl">
