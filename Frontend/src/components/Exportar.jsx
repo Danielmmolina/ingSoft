@@ -15,7 +15,7 @@ export const Exportar = () => {
       .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setCuadrillas(data);
+          setCuadrillas(data.cuadrillas);
         });
     }
   };
